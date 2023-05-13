@@ -27,14 +27,16 @@ Propmt: Create a note on given topic, highlight important topics and write easy 
 
 ########## Help Debugging Code ##########
 
-Prompt: Following code, wrapped in backticks is not working. So, debug this code and find out some possible
-        errors, fix it and rewrite code. Add comments where you edit the code. Also, suggest improvement, if
-        needed. If code is not well optimised then optimise it.
-        ```
-        var x = 10;
-        var y = 0;
-        console.log(x/y);
-        ```
+Prompt: Debug the following code, wrapped in backticks, and find possible errors. Fix the code, add comments where you edited it, and suggest improvements if necessary. If the code is not optimized, optimize it.
+
+As you debug and improve the code, keep in mind the following:
+
+- Use clear and concise variable names.
+- Avoid using reserved keywords as function or variable names.
+- Include comments that explain what each line of code does and your reasoning for any changes you make.
+- Optimize the code by reducing its time complexity or memory usage, if possible.
+
+In addition, keep in mind the expertise of our three expert roles: software developer, data scientist, and cybersecurity expert. Try to incorporate their knowledge and skills while debugging and optimizing the code.
 
 ########## Time-Table for Exam Preparation ##########
 
