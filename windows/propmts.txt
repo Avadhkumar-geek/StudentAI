@@ -1,0 +1,49 @@
+try out prompts on https://chat.openai.com/
+
+########## Assist students in memorizing concepts through the use of songs ##########
+
+Prompt: Write a song as Honey singh on topic OOPs concepts. So, I can memorise it in better way.
+
+
+########## Understand Chemical Reaction ##########
+
+Prompt: Consider the chemical reaction between reactant A and reactant B. Explain it & Write out the
+        balanced chemical equation for the reaction between these two reactants. Draw equations & Use
+        best visualisation techniques to make it more understandable.
+        Consider reactant wrapped in backticks.
+        Reactant A: ```Benzene```
+        Reactant B: ```Sodium Hydroxide```
+
+
+########## Create Notes ##########
+
+Propmt: Create a note on given topic, highlight important topics and write easy and understandable
+        definition of it. Write equation & formula if any there and draw diagram if possible. Write
+        some shorter example to find out usage of equations and formula. finally, write some real life
+        application of that topic.
+        Consider the topic wrapped in backticks.
+        Topic: ```operating system```
+
+
+########## Help Debugging Code ##########
+
+Prompt: Following code, wrapped in backticks is not working. So, debug this code and find out some possible
+        errors, fix it and rewrite code. Add comments where you edit the code. Also, suggest improvement, if
+        needed. If code is not well optimised then optimise it.
+        ```
+        var x = 10;
+        var y = 0;
+        console.log(x/y);
+        ```
+
+########## Time-Table for Exam Preparation ##########
+
+Prompt: My exam is starting from next week. I want to create schedule for reading. I have {n} subjects to
+        prepare. Create a time table of a week, I have {x} hours after school in a day and {y} hours in a weekends.
+        I need atleast half hour in {activity} every day. Keep in mind that, I'm weak in {subject}. So, I should focusing more
+        on this subject. Draw a table also.
+        n = 3
+        x = 3
+        y = 5
+        activity = playing games
+        subjects = {Physics, Maths, Gujarati}
