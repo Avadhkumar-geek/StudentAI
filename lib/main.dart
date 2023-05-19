@@ -8,9 +8,9 @@ import 'package:student_ai/screen/home.dart';
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
+  runApp(const MyApp());
   // await dotenv.load(fileName: '.env');
   getAPIKeyFromStorage();
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
