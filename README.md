@@ -15,10 +15,12 @@ StudentAI is an AI chatbot app that helps students to learn more effectively. It
 
 To get started with StudentAI, you will need to:
 
-1. Create an OpenAI account and get an API key.
-2. Install the Flutter SDK.
-3. Clone the StudentAI repository.
-4. Open the project in your IDE and run the app.
+1. Create an Discord account, join this server [FoxGPT](https://discord.gg/DZnFebu8tP) 
+2. Get your API key.
+3. Install the Flutter SDK.
+4. Clone the StudentAI repository.
+5. Run `flutter pub get` to install the dependencies.
+6. Run `flutter run` to start the app.
 
 ### Usage
 
@@ -44,3 +46,10 @@ StudentAI is licensed under the MIT License.
 ### Contact
 
 If you have any questions or feedback, please feel free to contact me at <avadhkachhadiya@gmail.com>.
+
+## References
+
+
+* [sandeepscet](https://github.com/sandeepscet)
+* [FoxGPT](https://api.hypere.app/)
+* [Stack Overflow](https://stackoverflow.com/)
