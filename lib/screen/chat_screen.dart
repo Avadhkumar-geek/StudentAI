@@ -1,23 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/services/api_service.dart';
+import 'package:student_ai/widgets/ani.dart';
 import 'package:student_ai/widgets/message.dart';
 import 'package:student_ai/widgets/search_bar.dart';
 
 class ChatScreen extends StatefulWidget {
-  final TextEditingController querycontroller;
+  final String queryController;
+  final bool isFormRoute;
 
-  const ChatScreen({Key? key, required this.querycontroller}) : super(key: key);
+  const ChatScreen(
+      {Key? key, required this.queryController, required this.isFormRoute})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<MessageData> msgList = [];
+  List<Message> msgList = [];
 
-  // List<MessageData> resData = [];
   final TextEditingController newQueryController = TextEditingController();
   bool _isTyping = false;
   final ScrollController _scrollController = ScrollController();
@@ -27,10 +31,15 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void sendMessage(String query) {
+    if (widget.isFormRoute == false) {
+      setState(() {
+        msgList.insert(0, Message(text: query, sender: 'user'));
+      });
+    }
     setState(() {
-      msgList.insert(0, MessageData(text: query, sender: 'user'));
       _isTyping = true;
     });
+    fetchData(query);
   }
 
   Future<void> fetchData(String qry) async {
@@ -39,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
       // print(query);
       setState(() {
         _isTyping = false;
-        msgList.insert(0, MessageData(text: fetchRes, sender: 'AI'));
+        msgList.insert(0, Message(text: fetchRes, sender: 'AI'));
       });
     } catch (e) {
       if (kDebugMode) {
@@ -50,8 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    sendMessage(widget.querycontroller.text);
-    fetchData(widget.querycontroller.text);
+    sendMessage(widget.queryController);
     super.initState();
   }
 
@@ -59,14 +67,17 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(16, 16, 20, 1),
+      backgroundColor: kBackGroundColor,
       appBar: AppBar(
-        foregroundColor: Colors.white,
-        backgroundColor: const Color.fromRGBO(16, 16, 20, 1),
-        title: const Text('Chat'),
+        foregroundColor: kBlack,
+        backgroundColor: kForeGroundColor,
+        title: const Text(
+          'Chat',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.clear_all),
+            icon: const Icon(Icons.delete_outline_outlined),
             onPressed: () {
               setState(
                 () {
@@ -78,7 +89,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Flexible(
             child: ListView.builder(
@@ -88,22 +98,21 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               // shrinkWrap: true,
               itemCount: msgList.length,
-              itemBuilder: (context, index) => MessageData(
+              itemBuilder: (context, index) => Message(
                 sender: msgList[index].sender,
                 text: msgList[index].text,
               ),
             ),
           ),
+          _isTyping ? TypingAnimation2() : Container(),
           const SizedBox(
             height: 16,
           ),
           SearchBar(
-            color: Colors.white60,
             chatController: newQueryController,
             onTap: () {
               if (newQueryController.text.isNotEmpty && !_isTyping) {
                 sendMessage(newQueryController.text);
-                fetchData(newQueryController.text);
               }
               newQueryController.clear();
             },

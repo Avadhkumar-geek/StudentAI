@@ -8,71 +8,77 @@ class SearchBar extends StatelessWidget {
     Key? key,
     required this.chatController,
     required this.onTap,
-    required this.color,
   }) : super(key: key);
 
   final TextEditingController chatController;
   final VoidCallback onTap;
-  final Color color;
 
   static const double borderWidth = 3.0;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(width: borderWidth, color: color),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: TextField(
+        maxLines: 4,
+        minLines: 1,
+        style: const TextStyle(
+          fontSize: 18,
+          color: kBlack,
+          fontWeight: FontWeight.w500,
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                maxLines: 4,
-                minLines: 1,
-                style: TextStyle(fontSize: 18, color: color),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Ask anything",
-                  hintStyle: TextStyle(color: color),
-                ),
-                controller: chatController,
-              ),
-            ),
-            InkWell(
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 3),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 3),
+          ),
+          hintText: "Ask anything",
+          filled: true,
+          fillColor: kWhite70,
+          suffixIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               onTap: () {
-                if (apiKey == null) {
+                if (isAPIValidated == false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Enter a valid API Key'),
                       backgroundColor: kRed,
+                      duration: Duration(seconds: 1),
                     ),
                   );
                 } else {
                   onTap();
+                  FocusScope.of(context).unfocus();
                 }
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(23),
                   color: Colors.black,
                 ),
-                width: 38,
-                height: 38,
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: SvgPicture.asset(
                     'assets/openai.svg',
+                    width: 30,
                   ),
                 ),
               ),
             ),
-          ],
+          ),
         ),
+        controller: chatController,
       ),
     );
   }

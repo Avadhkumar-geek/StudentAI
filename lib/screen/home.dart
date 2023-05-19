@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/form.dart';
@@ -25,12 +24,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackGroundColor,
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        backgroundColor: kPurple,
-        foregroundColor: kWhite,
+        // systemOverlayStyle: const SystemUiOverlayStyle(
+        //   //   statusBarColor: kStatusBarColor,
+        //   statusBarIconBrightness: Brightness.light,
+        // ),
+        backgroundColor: kForeGroundColor,
+        foregroundColor: kBlack,
         centerTitle: true,
         title: Row(
           children: [
@@ -43,7 +44,10 @@ class _HomeState extends State<Home> {
             ),
             const Text(
               "StudentAI",
-              style: TextStyle(fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 25,
+              ),
             ),
           ],
         ),
@@ -57,7 +61,7 @@ class _HomeState extends State<Home> {
                 },
               );
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.key),
           ),
         ],
       ),
@@ -75,7 +79,6 @@ class _HomeState extends State<Home> {
             ),
           ),
           SearchBar(
-            color: kBlack,
             chatController: chatController,
             onTap: () {
               if (chatController.text.isNotEmpty) {
@@ -83,10 +86,11 @@ class _HomeState extends State<Home> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChatScreen(
-                      querycontroller: chatController,
+                      queryController: chatController.text,
+                      isFormRoute: false,
                     ),
                   ),
-                );
+                ).then((value) => chatController.clear());
               }
             },
           ),

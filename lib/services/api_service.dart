@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:student_ai/data/constants.dart';
 
 /*
 curl --location 'https://api.pawan.krd/v1/chat/completions' \
@@ -13,19 +15,19 @@ curl --location 'https://api.pawan.krd/v1/chat/completions' \
 class ApiService {
   static Future<String> fetchApi(String apiKey, String content) async {
     try {
-      // String apiKey = dotenv.env['API_KEY']!;
-      const String url = 'https://api.pawan.krd/v1/chat/completions';
+      const String url = 'https://api.hypere.app/v1/chat/completions';
       final Map<String, String> headers = {
+        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
       final Map<String, dynamic> data = {
         'model': 'gpt-3.5-turbo',
         'messages': [
-          // {
-          //   "role": "system",
-          //   "content": "You are an helpful assistant.",
-          // },
+          {
+            "role": "system",
+            "content": formatter,
+          },
           {
             'role': 'user',
             'content': content,
@@ -37,7 +39,7 @@ class ApiService {
       final res = await http.post(Uri.parse(url),
           headers: headers, body: json.encode(data));
 
-      print(res.body);
+      // print(res.body);
 
       Map<String, dynamic> result = jsonDecode(res.body);
 
@@ -47,7 +49,7 @@ class ApiService {
         resData += content;
       });
 
-      print(resData);
+      // print(resData);
       return resData;
     } catch (e) {
       throw Exception(e.toString());
@@ -56,9 +58,9 @@ class ApiService {
 
   static Future<bool> validateApiKey(String apiKey) async {
     try {
-      // String apiKey = dotenv.env['API_KEY']!;
-      const String url = 'https://api.pawan.krd/v1/chat/completions';
+      const String url = 'https://api.hypere.app/v1/chat/completions';
       final Map<String, String> headers = {
+        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
@@ -76,7 +78,8 @@ class ApiService {
       final res = await http.post(Uri.parse(url),
           headers: headers, body: json.encode(data));
 
-      print(res.statusCode);
+      // print('Status Code: ${res.statusCode}');
+      // print(res.body);
 
       return res.statusCode == 200;
     } catch (e) {
