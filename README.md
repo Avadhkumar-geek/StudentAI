@@ -15,16 +15,19 @@ StudentAI is an AI chatbot app that helps students to learn more effectively. It
 
 To get started with StudentAI, you will need to:
 
-1. Create an Discord account, join this server [FoxGPT](https://discord.gg/DZnFebu8tP) 
-2. Get your API key.
-3. Install the Flutter SDK.
-4. Clone the StudentAI repository.
-5. Run `flutter pub get` to install the dependencies.
-6. Run `flutter run` to start the app.
+1. Install the Flutter SDK.
+2. Clone the StudentAI repository.
+3. Run `flutter pub get` to install the dependencies.
+4. Run `flutter run` to start the app.
 
 ### Usage
 
 Once the app is running, you can start chatting with StudentAI by typing in your questions or requests. StudentAI will use its knowledge base and OpenAI's API to provide you with personalized learning experiences.
+
+####  API Key
+Do not forget to add you API key in app before start using.
+1. You can get API key from official [openAI account](https://beta.openai.com/account/api-keys)
+2. You can get using free key Providers from github repo/discord server. ex [FoxGPT](https://github.com/FoxGPT/gpt) 
 
 ### Examples
 
@@ -37,7 +40,7 @@ Here are some examples of how you can use StudentAI:
 
 ### Contributing
 
-We welcome contributions to our project! If you find any bugs or want to suggest improvements, please create a pull request on our GitHub repository.
+Please feel free to  create a pull request for a bug, Feature requirement or any kind of improvement.
 
 ### License
 
@@ -49,7 +52,5 @@ If you have any questions or feedback, please feel free to contact me at <avadhk
 
 ## References
 
-
-* [sandeepscet](https://github.com/sandeepscet)
+* [sandeepscet](https://github.com/sandeepscet/prompt-apps)
 * [FoxGPT](https://api.hypere.app/)
-* [Stack Overflow](https://stackoverflow.com/)
