@@ -44,7 +44,7 @@ Please feel free to  create a pull request for a bug, Feature requirement or any
 
 ### License
 
-StudentAI is licensed under the MIT License.
+StudentAI is licensed under the [MIT License](LICENSE).
 
 ### Contact
 
