@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/form.dart';
 import 'package:student_ai/widgets/api_input.dart';
@@ -34,15 +35,15 @@ class _HomeState extends State<Home> {
         foregroundColor: kBlack,
         centerTitle: true,
         title: Row(
-          children: const [
-            Image(
-              image: AssetImage('assets/logo.png'),
-              width: 65,
+          children: [
+            SvgPicture.asset(
+              'assets/logo.svg',
+              width: 35,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
-            Text(
+            const Text(
               "StudentAI",
               style: TextStyle(
                 fontWeight: FontWeight.w600,

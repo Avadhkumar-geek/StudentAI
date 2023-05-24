@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/widgets/usr_message.dart';
@@ -22,14 +23,11 @@ class Message extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.all(8),
-                  child: const CircleAvatar(
-                    child: Image(
-                      image: AssetImage(
-                        'assets/logo.png',
-                      ),
-                      width: 40,
-                    ),
-                  ),
+                  child: CircleAvatar(
+                      child: SvgPicture.asset(
+                    'assets/logo.svg',
+                    width: 25,
+                  )),
                 ),
                 Flexible(
                   child: Container(
