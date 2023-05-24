@@ -9,9 +9,9 @@ import 'package:student_ai/widgets/search_bar.dart';
 
 class ChatScreen extends StatefulWidget {
   final String queryController;
-  final bool isFormRoute;
+  bool isFormRoute;
 
-  const ChatScreen(
+  ChatScreen(
       {Key? key, required this.queryController, required this.isFormRoute})
       : super(key: key);
 
@@ -38,6 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     setState(() {
       _isTyping = true;
+      widget.isFormRoute = false;
     });
     fetchData(query);
   }
@@ -45,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> fetchData(String qry) async {
     try {
       String fetchRes = await ApiService.fetchApi(apiKey!, qry);
-      // print(query);
+
       setState(() {
         _isTyping = false;
         msgList.insert(0, Message(text: fetchRes, sender: 'AI'));
@@ -71,9 +72,28 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         foregroundColor: kBlack,
         backgroundColor: kForeGroundColor,
-        title: const Text(
-          'Chat',
-          style: TextStyle(fontWeight: FontWeight.w600),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Chat',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            _isTyping
+                ? Row(
+                    children: const [
+                      TypingAnimation2(),
+                      Text(
+                        'typing',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: kWhite),
+                      )
+                    ],
+                  )
+                : Container(),
+          ],
         ),
         actions: [
           IconButton(
@@ -104,17 +124,17 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
-          _isTyping ? TypingAnimation2() : Container(),
           const SizedBox(
             height: 16,
           ),
           SearchBar(
+            buttonColor: _isTyping ? kDarkWhite : kBlack,
             chatController: newQueryController,
             onTap: () {
               if (newQueryController.text.isNotEmpty && !_isTyping) {
                 sendMessage(newQueryController.text);
+                newQueryController.clear();
               }
-              newQueryController.clear();
             },
           ),
           const SizedBox(

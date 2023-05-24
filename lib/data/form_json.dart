@@ -1,6 +1,12 @@
+import 'package:flutter/material.dart';
+
 List<dynamic> formJSON = [
   {
     "id": "topic-explainer",
+    "icon": Icons.topic,
+    "color": 0xFFE0B447,
+    "title": "Topic Explainer",
+    "disc": "Explain Like 5 Year Old Child",
     "prompt":
         "Please explain the {topic} to me in a way that is easy to understand for someone who is {year} years old and has a basic understanding of {knows} and struggling with {struggles}. Please provide the response in markdown format, with an overview of the topic, its relevance, and any key concepts that are important to understand. Please keep the tone of the response informative and engaging.",
     "schema": {
@@ -35,6 +41,10 @@ List<dynamic> formJSON = [
   },
   {
     "id": "compare-topics",
+    "icon": Icons.compare,
+    "color": 0xFF337EB0,
+    "title": "Compare Topic",
+    "disc": "Get Difference with Pros & Cons",
     "prompt":
         "Please compare {topic1} and {topic2} and write a markdown-formatted document with a minimum of {count} differences between the two, including their pros and cons. Make sure to ground your comparison in reliable sources of information and data.",
     "schema": {
@@ -62,6 +72,10 @@ List<dynamic> formJSON = [
   },
   {
     "id": "summarise-text",
+    "color": 0xFFC36B74,
+    "icon": Icons.summarize,
+    "title": "Summarize the Text",
+    "disc": "Easy & Quick to Understand",
     "prompt":
         "Using Markdown format, summarize the text {text} in {count} words. Ensure the summary is clear, concise, and easy to understand for a general audience.",
     "schema": {
@@ -83,6 +97,10 @@ List<dynamic> formJSON = [
   },
   {
     "id": "mcq-type-quiz",
+    "icon": Icons.note_alt_rounded,
+    "color": 0xFF2CA94B,
+    "title": "MCQ Type Quiz",
+    "disc": "Generate MCQs with Answer",
     "prompt":
         "Create a {number} multiple-choice quiz from text {text}. The output should be in markdown format and include the question, options, and correct answer for each question. Each question should be based on a distinct concept within the text, and four options (including the correct answer) should be provided for each question. The correct answer should be indicated with an asterisk (*) immediately following the option. Ensure that each question and option is grammatically correct, semantically meaningful, and accurately reflects the content of the original text. To achieve this, we will leverage the expertise of an Instructional Designer, a Natural Language Processing Expert, a Quiz Creator, a Markdown Specialist, a Content Editor, a Domain Expert, a UX Designer, and a Data Analyst. The Domain Expert will work with us to identify key concepts in the text, the UX Designer will design an intuitive and engaging user interface for the quiz, and the Data Analyst will use data analytics tools to analyze the results of the quiz and make improvements for future iterations.",
     "schema": {
@@ -104,6 +122,10 @@ List<dynamic> formJSON = [
   },
   {
     "id": "comprehensive-study-plan",
+    "color": 0xFFA4B8C4,
+    "icon": Icons.lightbulb,
+    "title": "Create Study Plan",
+    "disc": "Comprehensive Study Plan",
     "prompt":
         "Create a detailed study plan for mastering {topic} in {days} days. Please include specific tasks to be completed, recommendations for studying techniques or resources that would be helpful, suggestions for managing time effectively while studying, and ensure that the study plan is designed to help achieve the end goal. Additionally, please offer suggestions on how to stay motivated and focused during long-term studying, and provide guidance on how to evaluate progress and make adjustments to the study plan as needed.",
     "schema": {

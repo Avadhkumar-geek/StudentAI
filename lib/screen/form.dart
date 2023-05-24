@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
-import 'package:student_ai/data/form_data.dart';
+import 'package:student_ai/data/form_json.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/widgets/message.dart';

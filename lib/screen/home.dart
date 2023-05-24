@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/form.dart';
 import 'package:student_ai/widgets/api_input.dart';
 import 'package:student_ai/widgets/card_widget.dart';
 import 'package:student_ai/widgets/search_bar.dart';
 
-import '../data/card_data.dart';
 import '../data/constants.dart';
+import '../data/form_json.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -26,23 +26,23 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: kBackGroundColor,
       appBar: AppBar(
-        // systemOverlayStyle: const SystemUiOverlayStyle(
-        //   //   statusBarColor: kStatusBarColor,
-        //   statusBarIconBrightness: Brightness.light,
-        // ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          //   //   statusBarColor: kStatusBarColor,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         backgroundColor: kForeGroundColor,
         foregroundColor: kBlack,
         centerTitle: true,
         title: Row(
-          children: [
-            SvgPicture.asset(
-              'assets/logo.svg',
-              width: 35,
+          children: const [
+            Image(
+              image: AssetImage('assets/logo.png'),
+              width: 65,
             ),
-            const SizedBox(
+            SizedBox(
               width: 10,
             ),
-            const Text(
+            Text(
               "StudentAI",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
@@ -79,6 +79,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           SearchBar(
+            buttonColor: kBlack,
             chatController: chatController,
             onTap: () {
               if (chatController.text.isNotEmpty) {
@@ -117,9 +118,9 @@ class _HomeState extends State<Home> {
                 mainAxisSpacing: 10,
               ),
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              itemCount: cardData.length,
+              itemCount: formJSON.length,
               itemBuilder: (context, index) {
-                final data = cardData[index];
+                final data = formJSON[index];
                 return CardWidget(
                   id: data['id'],
                   data: data,

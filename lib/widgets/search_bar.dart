@@ -8,10 +8,12 @@ class SearchBar extends StatelessWidget {
     Key? key,
     required this.chatController,
     required this.onTap,
+    required this.buttonColor,
   }) : super(key: key);
 
   final TextEditingController chatController;
   final VoidCallback onTap;
+  final Color buttonColor;
 
   static const double borderWidth = 3.0;
 
@@ -65,7 +67,7 @@ class SearchBar extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(23),
-                  color: Colors.black,
+                  color: buttonColor,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
