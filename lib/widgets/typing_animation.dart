@@ -12,14 +12,14 @@ class TypingAnimation extends StatelessWidget {
         SizedBox(
           width: 30,
           child: SpinKitThreeInOut(
-            color: kGreen,
+            color: kBlue,
             size: 15,
           ),
         ),
         Text(
           'typing',
           style: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w600, color: kGreen),
+              fontSize: 14, fontWeight: FontWeight.w600, color: kBlue),
         )
       ],
     );

@@ -79,8 +79,8 @@ class ApiService {
       final res = await http.post(Uri.parse(url),
           headers: headers, body: json.encode(data));
 
-      print('Status Code: ${res.statusCode}');
-      print(res.body);
+      // print('Status Code: ${res.statusCode}');
+      // print(res.body);
 
       return res.statusCode == 200;
     } catch (e) {

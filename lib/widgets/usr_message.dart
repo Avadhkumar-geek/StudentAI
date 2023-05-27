@@ -34,10 +34,11 @@ class UsrMessage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 6),
           child: const CircleAvatar(
+              backgroundColor: kWhite70,
               child: Icon(
-            Icons.school_outlined,
-            size: 30,
-          )),
+                Icons.school_outlined,
+                size: 30,
+              )),
         ),
       ],
     );

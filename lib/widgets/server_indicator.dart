@@ -25,7 +25,8 @@ class _ServerIndicatorState extends State<ServerIndicator> {
         children: [
           const Text(
             "Server",
-            style: TextStyle(color: Colors.white, fontSize: 12),
+            style: TextStyle(
+                color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             width: 8,

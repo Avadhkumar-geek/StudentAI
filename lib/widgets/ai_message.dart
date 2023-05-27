@@ -22,10 +22,11 @@ class AiMessage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 6),
           child: CircleAvatar(
+              backgroundColor: kWhite70,
               child: SvgPicture.asset(
-            'assets/logo.svg',
-            width: 25,
-          )),
+                'assets/logo.svg',
+                width: 25,
+              )),
         ),
         Flexible(
           child: Container(
