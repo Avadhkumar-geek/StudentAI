@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/screen/chat_screen.dart';
-import 'package:student_ai/screen/form.dart';
+import 'package:student_ai/screen/my_form.dart';
+import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/api_input.dart';
 import 'package:student_ai/widgets/card_widget.dart';
 import 'package:student_ai/widgets/search_bar.dart';
+import 'package:student_ai/widgets/server_indicator.dart';
 
 import '../data/constants.dart';
 import '../data/form_json.dart';
@@ -20,7 +24,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Timer? timer;
+  bool isServerUp = false;
   final TextEditingController chatController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    ApiService.serverStatus().then((status) {
+      setState(() {
+        isServerUp = status;
+      });
+    });
+
+    timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
+      ApiService.serverStatus().then((status) {
+        setState(() {
+          isServerUp = status;
+        });
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +59,6 @@ class _HomeState extends State<Home> {
       backgroundColor: kBackGroundColor,
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
-          //   //   statusBarColor: kStatusBarColor,
           statusBarIconBrightness: Brightness.dark,
         ),
         backgroundColor: kForeGroundColor,
@@ -53,6 +83,7 @@ class _HomeState extends State<Home> {
           ],
         ),
         actions: [
+          ServerIndicator(isServerUp: isServerUp),
           IconButton(
             onPressed: () {
               showDialog(

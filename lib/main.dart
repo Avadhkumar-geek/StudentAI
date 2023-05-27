@@ -6,8 +6,9 @@ import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/home.dart';
 
 Future main() async {
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent,
+  ));
   runApp(const MyApp());
   // await dotenv.load(fileName: '.env');
   getAPIKeyFromStorage();

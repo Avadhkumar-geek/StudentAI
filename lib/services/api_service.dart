@@ -15,14 +15,15 @@ curl --location 'https://api.pawan.krd/v1/chat/completions' \
 class ApiService {
   static Future<String> fetchApi(String apiKey, String content) async {
     try {
-      const String url = 'https://api.hypere.app/v1/chat/completions';
+      const String url =
+          'https://chimeragpt.adventblocks.cc/v1/chat/completions';
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
       final Map<String, dynamic> data = {
-        'model': 'gpt-3.5-turbo',
+        'model': 'gpt-4',
         'messages': [
           {
             "role": "system",
@@ -33,7 +34,6 @@ class ApiService {
             'content': content,
           }
         ],
-        'max_tokens': 2048
       };
 
       final res = await http.post(Uri.parse(url),
@@ -58,28 +58,43 @@ class ApiService {
 
   static Future<bool> validateApiKey(String apiKey) async {
     try {
-      const String url = 'https://api.hypere.app/v1/chat/completions';
+      const String url =
+          'https://chimeragpt.adventblocks.cc/v1/chat/completions';
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
       final Map<String, dynamic> data = {
-        'model': 'gpt-3.5-turbo',
+        'model': 'gpt-4',
         'messages': [
           {
             'role': 'user',
             'content': 'hi',
           }
         ],
-        'max_tokens': 2048
+        // 'max_tokens': 2048
       };
 
       final res = await http.post(Uri.parse(url),
           headers: headers, body: json.encode(data));
 
+      print('Status Code: ${res.statusCode}');
+      print(res.body);
+
+      return res.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> serverStatus() async {
+    try {
+      const String url = 'https://chimeragpt.adventblocks.cc/';
+
+      final res = await http.get(Uri.parse(url));
+
       // print('Status Code: ${res.statusCode}');
-      // print(res.body);
 
       return res.statusCode == 200;
     } catch (e) {

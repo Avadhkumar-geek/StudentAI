@@ -9,6 +9,7 @@ const double cardAspectRatio = 0.88;
 
 const kWhite = Colors.white;
 const kBackGroundColor = Color.fromRGBO(234, 225, 215, 1);
+const kChatAppBar = Color.fromRGBO(54, 54, 53, 1);
 const kWhite70 = Colors.white70;
 const kLightGreen = Color.fromRGBO(175, 225, 105, 1);
 const kGreen = Colors.green;

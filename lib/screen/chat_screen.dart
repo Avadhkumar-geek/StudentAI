@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/ani.dart';
 import 'package:student_ai/widgets/message.dart';
 import 'package:student_ai/widgets/search_bar.dart';
+import 'package:student_ai/widgets/typing_animation.dart';
 
 class ChatScreen extends StatefulWidget {
   final String queryController;
@@ -70,8 +71,11 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: kBackGroundColor,
       appBar: AppBar(
-        foregroundColor: kBlack,
-        backgroundColor: kForeGroundColor,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+        ),
+        foregroundColor: kWhite,
+        backgroundColor: kChatAppBar,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -79,20 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'Chat',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            _isTyping
-                ? Row(
-                    children: const [
-                      TypingAnimation2(),
-                      Text(
-                        'typing',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: kWhite),
-                      )
-                    ],
-                  )
-                : Container(),
+            _isTyping ? const TypingAnimation() : Container(),
           ],
         ),
         actions: [

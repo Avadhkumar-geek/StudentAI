@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   const SearchBar({
     Key? key,
     required this.chatController,
@@ -16,6 +17,29 @@ class SearchBar extends StatelessWidget {
   final Color buttonColor;
 
   static const double borderWidth = 3.0;
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +75,8 @@ class SearchBar extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
+                HapticFeedback.heavyImpact();
+                _controller.forward().then((value) => _controller.reset());
                 if (isAPIValidated == false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -60,27 +86,30 @@ class SearchBar extends StatelessWidget {
                     ),
                   );
                 } else {
-                  onTap();
+                  widget.onTap();
                   FocusScope.of(context).unfocus();
                 }
               },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(23),
-                  color: buttonColor,
+                  color: widget.buttonColor,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
-                  child: SvgPicture.asset(
-                    'assets/openai.svg',
-                    width: 30,
+                  child: RotationTransition(
+                    turns: Tween(begin: 0.0, end: 1.5).animate(_controller),
+                    child: SvgPicture.asset(
+                      'assets/openai.svg',
+                      width: 30,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-        controller: chatController,
+        controller: widget.chatController,
       ),
     );
   }
