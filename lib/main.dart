@@ -8,6 +8,7 @@ import 'package:student_ai/screen/home.dart';
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
   ));
   runApp(const MyApp());
   // await dotenv.load(fileName: '.env');
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        textTheme: GoogleFonts.getTextTheme('Montserrat'),
+        textTheme: GoogleFonts.getTextTheme('Raleway'),
       ),
       home: const Home(),
     );

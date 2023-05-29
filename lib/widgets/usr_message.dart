@@ -20,22 +20,23 @@ class UsrMessage extends StatelessWidget {
         Flexible(
           child: Container(
             decoration: BoxDecoration(
-              color: kLightGreen,
-              borderRadius: BorderRadius.circular(30),
+              color: kOrange.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(20),
+              // border: Border.all(width: 2, color: kOrange),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             margin: const EdgeInsets.all(8),
             child: Text(
               text,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 14),
             ),
           ),
         ),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 6),
-          child: const CircleAvatar(
-              backgroundColor: kWhite70,
-              child: Icon(
+          child: CircleAvatar(
+              backgroundColor: kWhite.withOpacity(0.3),
+              child: const Icon(
                 Icons.school_outlined,
                 size: 30,
               )),

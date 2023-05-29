@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/my_form.dart';
@@ -66,9 +65,6 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-          ),
           backgroundColor: Colors.transparent,
           foregroundColor: kBlack,
           centerTitle: true,
@@ -93,13 +89,26 @@ class _HomeState extends State<Home> {
           actions: [
             ServerIndicator(isServerUp: isServerUp),
             IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const ApiInput();
-                  },
-                );
+              onPressed: () async {
+                if (!isServerUp) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.grey,
+                      content: Text(
+                        "Server is Down 🔻. Try again later!",
+                        style: TextStyle(
+                            color: kBlack, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ApiInput();
+                    },
+                  );
+                }
               },
               icon: const Icon(Icons.key),
             ),

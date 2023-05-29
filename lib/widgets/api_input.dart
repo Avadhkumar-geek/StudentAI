@@ -49,7 +49,10 @@ class _ApiInputState extends State<ApiInput> {
                       labelText: 'Enter an API Key',
                       labelStyle: const TextStyle(
                           fontWeight: FontWeight.w600, color: kWhite),
-                      prefixIcon: const Icon(Icons.key, color: kWhite,),
+                      prefixIcon: const Icon(
+                        Icons.key,
+                        color: kWhite,
+                      ),
                       hintStyle: const TextStyle(
                         fontWeight: FontWeight.w600,
                       ),
@@ -100,14 +103,20 @@ class _ApiInputState extends State<ApiInput> {
                     if (!await ApiService.validateApiKey(apiController.text)) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Enter a valid API Key'),
+                          content: Text(
+                            'Enter a valid API Key',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           backgroundColor: kRed,
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('API Key validated!!'),
+                          content: Text(
+                            'API Key validated!!',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           backgroundColor: kGreen,
                         ),
                       );

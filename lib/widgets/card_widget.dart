@@ -26,19 +26,17 @@ class CardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: kWhite70,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Icon(
-                    data['icon'],
-                    size: 25,
-                  ),
+            Container(
+              decoration: BoxDecoration(
+                color: kWhite70,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              margin: const EdgeInsets.all(16),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(
+                  data['icon'],
+                  size: 25,
                 ),
               ),
             ),
@@ -64,13 +62,12 @@ class CardWidget extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 15,
                       color: Colors.black54,
-                      // fontFamily: ,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

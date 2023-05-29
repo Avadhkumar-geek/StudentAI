@@ -17,11 +17,13 @@ class ApiService {
     try {
       const String url =
           'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
+
       final Map<String, dynamic> data = {
         'model': 'gpt-4',
         'messages': [
@@ -39,20 +41,17 @@ class ApiService {
       final res = await http.post(Uri.parse(url),
           headers: headers, body: json.encode(data));
 
-      // print(res.body);
+      Map<String, dynamic> resData = jsonDecode(res.body);
 
-      Map<String, dynamic> result = jsonDecode(res.body);
-
-      String resData = "";
-      result['choices'].forEach((choice) {
+      String output = "";
+      resData['choices'].forEach((choice) {
         String content = choice['message']['content'];
-        resData += content;
+        output += content;
       });
 
-      // print(resData);
-      return resData;
+      return output;
     } catch (e) {
-      throw Exception(e.toString());
+      return "Something went wrong!! Please, try again later.";
     }
   }
 
@@ -60,11 +59,13 @@ class ApiService {
     try {
       const String url =
           'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
+
       final Map<String, dynamic> data = {
         'model': 'gpt-4',
         'messages': [
@@ -73,7 +74,6 @@ class ApiService {
             'content': 'hi',
           }
         ],
-        // 'max_tokens': 2048
       };
 
       final res = await http.post(Uri.parse(url),
@@ -93,8 +93,6 @@ class ApiService {
       const String url = 'https://chimeragpt.adventblocks.cc/';
 
       final res = await http.get(Uri.parse(url));
-
-      // print('Status Code: ${res.statusCode}');
 
       return res.statusCode == 200;
     } catch (e) {

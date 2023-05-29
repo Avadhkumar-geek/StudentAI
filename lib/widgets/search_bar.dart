@@ -67,7 +67,7 @@ class _SearchBarState extends State<SearchBar>
             borderRadius: BorderRadius.circular(30),
             borderSide: const BorderSide(width: 3),
           ),
-          hintText: "Ask anything",
+          hintText: "Ask anything..",
           filled: true,
           fillColor: kWhite70,
           suffixIcon: Padding(

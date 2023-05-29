@@ -42,8 +42,8 @@ List<dynamic> formJSON = [
     "id": "grammar-correction",
     "icon": Icons.abc,
     "color": 0xFFC36B74,
-    "title": "Correct Grammar",
-    "disc": "Grammar Correction & Language Improvement",
+    "title": "Grammarian",
+    "disc": "Check Your Grammar",
     "prompt":
         "Improve language, correct grammar and punctuation of the text delimited in backticks ```{text}```.",
     "schema": {
@@ -86,8 +86,8 @@ List<dynamic> formJSON = [
     "id": "code-debugging",
     "icon": Icons.bug_report,
     "color": 0xFF5BBA6F,
-    "title": "Code Debugging & Error Fixing",
-    "disc": "Debug Your Code & Fix Errors in It",
+    "title": "Debug & Fix Errors in Code",
+    "disc": "Helps Fix Your Code",
     "prompt": "```{code}``` Debug the following code, wrapped in backticks, and find possible errors. Fix the code, add comments where you edited it, and suggest improvements if necessary. If the code is not optimized, optimize it."
         "As you debug and improve the code, keep in mind the following"
         "- Use clear and concise variable names."

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -22,7 +23,7 @@ class AiMessage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 6),
           child: CircleAvatar(
-              backgroundColor: kWhite70,
+              backgroundColor: kWhite.withOpacity(0.3),
               child: SvgPicture.asset(
                 'assets/logo.svg',
                 width: 25,
@@ -31,10 +32,11 @@ class AiMessage extends StatelessWidget {
         Flexible(
           child: Container(
             decoration: BoxDecoration(
-              color: kLightGreen,
-              borderRadius: BorderRadius.circular(30),
+              color: kLightGreen.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(20),
+              // border: Border.all(width: 2, color: Colors.lightGreen),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             margin: const EdgeInsets.all(8),
             child: Markdown(
               padding: EdgeInsets.zero,
@@ -42,14 +44,14 @@ class AiMessage extends StatelessWidget {
               selectable: true,
               styleSheet:
                   MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                p: const TextStyle(fontSize: 16),
+                p: const TextStyle(fontSize: 14),
                 code: const TextStyle(
-                    color: kWhite, backgroundColor: kCodeBgColor),
+                    fontSize: 14, color: kBlack, backgroundColor: kTransparent),
                 codeblockDecoration: BoxDecoration(
-                  color: kCodeBgColor,
+                  color: kBlack.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(
-                    color: kBlack,
+                    color: kGreen,
                     width: 1.0,
                   ),
                 ),
@@ -68,10 +70,18 @@ class AiMessage extends StatelessWidget {
             ),
           ),
         ),
-        // Flexible(
-        //     child: SizedBox(
-        //   width: double.infinity,
-        // ))
+        Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: GestureDetector(
+            onTap: () => Clipboard.setData(
+              ClipboardData(text: text),
+            ),
+            child: const Icon(
+              Icons.copy_rounded,
+              size: 15,
+            ),
+          ),
+        ),
       ],
     );
   }
