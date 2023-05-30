@@ -43,6 +43,7 @@ dependencies:
   markdown: ^7.1.0
   shared_preferences: ^2.1.1
   flutter_spinkit: ^5.2.0
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:

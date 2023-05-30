@@ -2,9 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/data/message_model.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/message.dart';
-import 'package:student_ai/widgets/search_bar.dart';
+import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/typing_animation.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<Message> msgList = [];
+  List<MessageModel> msgList = [];
 
   final TextEditingController newQueryController = TextEditingController();
   bool _isTyping = false;
@@ -33,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendMessage(String query) {
     if (widget.isFormRoute == false) {
       setState(() {
-        msgList.insert(0, Message(text: query, sender: 'user'));
+        msgList.insert(0, MessageModel(text: query, sender: 'user'));
       });
     }
     setState(() {
@@ -49,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       setState(() {
         _isTyping = false;
-        msgList.insert(0, Message(text: fetchRes, sender: 'AI'));
+        msgList.insert(0, MessageModel(text: fetchRes, sender: 'AI'));
       });
     } catch (e) {
       if (kDebugMode) {
@@ -120,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
             const SizedBox(
               height: 16,
             ),
-            SearchBar(
+            MySearchBar(
               buttonColor: _isTyping ? kDarkWhite : kBlack,
               chatController: newQueryController,
               onTap: () {

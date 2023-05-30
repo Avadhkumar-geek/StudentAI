@@ -48,6 +48,7 @@ class ApiService {
         String content = choice['message']['content'];
         output += content;
       });
+      print(resData);
 
       return output;
     } catch (e) {

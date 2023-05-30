@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({
+class MySearchBar extends StatefulWidget {
+  const MySearchBar({
     Key? key,
     required this.chatController,
     required this.onTap,
@@ -19,10 +19,10 @@ class SearchBar extends StatefulWidget {
   static const double borderWidth = 3.0;
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<MySearchBar> createState() => _MySearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar>
+class _MySearchBarState extends State<MySearchBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

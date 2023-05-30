@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +8,8 @@ import 'package:student_ai/screen/my_form.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/api_input.dart';
 import 'package:student_ai/widgets/card_widget.dart';
-import 'package:student_ai/widgets/search_bar.dart';
+import 'package:student_ai/widgets/info_card.dart';
+import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/server_indicator.dart';
 
 import '../data/constants.dart';
@@ -56,10 +58,12 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.blue, kBackGroundColor, kOrange])),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blue, kBackGroundColor, kOrange],
+        ),
+      ),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
@@ -70,9 +74,21 @@ class _HomeState extends State<Home> {
           centerTitle: true,
           title: Row(
             children: [
-              SvgPicture.asset(
-                'assets/logo.svg',
-                width: 35,
+              GestureDetector(
+                onTap: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaY: 5,
+                            sigmaX: 5,
+                          ),
+                          child: const InfoCard());
+                    }),
+                child: SvgPicture.asset(
+                  'assets/logo.svg',
+                  width: 35,
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -97,7 +113,9 @@ class _HomeState extends State<Home> {
                       content: Text(
                         "Server is Down 🔻. Try again later!",
                         style: TextStyle(
-                            color: kBlack, fontWeight: FontWeight.bold),
+                          color: kBlack,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   );
@@ -130,7 +148,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            SearchBar(
+            MySearchBar(
               buttonColor: kBlack,
               chatController: chatController,
               onTap: () {
