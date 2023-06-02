@@ -7,7 +7,6 @@ import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/data/quiz_model.dart';
 import 'package:student_ai/screen/score.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/mcq.dart';
 import 'package:student_ai/widgets/question_list_builder.dart';
 
 class Quiz extends StatefulWidget {
