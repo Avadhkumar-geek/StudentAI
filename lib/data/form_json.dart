@@ -45,7 +45,7 @@ List<dynamic> formJSON = [
     "title": "Grammarian",
     "disc": "Check Your Grammar",
     "prompt":
-        "Improve language, correct grammar and punctuation of the text delimited in backticks ```{text}```.",
+        "Improve language, correct grammar and punctuation of the text delimited in backticks ```{text}```. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{text}": {
@@ -64,7 +64,7 @@ List<dynamic> formJSON = [
     "title": "Code Generator",
     "disc": "Generate Code on Your Demand",
     "prompt":
-        "Generate modular and reusable code using {language} language that is optimized for performance and efficiency and adheres to coding standards and best practices. Please also include explicit instructions on any specific requirements for input variables or expected output. As needed, please engage subject matter experts with the necessary skills to successfully complete the task.",
+        "Generate modular and reusable code using {language} language that is optimized for performance and efficiency and adheres to coding standards and best practices. Please also include explicit instructions on any specific requirements for input variables or expected output. As needed, please engage subject matter experts with the necessary skills to successfully complete the task. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{topic}": {
@@ -93,7 +93,7 @@ List<dynamic> formJSON = [
         "- Use clear and concise variable names."
         "- Avoid using reserved keywords as function or variable names."
         "- Include comments that explain what each line of code does and your reasoning for any changes you make."
-        "- Optimize the code by reducing its time complexity or memory usage, if possible. In addition, keep in mind the expertise of our three expert roles: software developer, data scientist, and cyber security expert. Try to incorporate their knowledge and skills while debugging and optimizing the code.",
+        "- Optimize the code by reducing its time complexity or memory usage, if possible. In addition, keep in mind the expertise of our three expert roles: software developer, data scientist, and cyber security expert. Try to incorporate their knowledge and skills while debugging and optimizing the code. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{code}": {
@@ -112,7 +112,7 @@ List<dynamic> formJSON = [
     "title": "Create Study Plan",
     "disc": "Comprehensive Study Plan",
     "prompt":
-        "Create a detailed study plan for mastering {topic} in {days} days. Please include specific tasks to be completed, recommendations for studying techniques or resources that would be helpful, suggestions for managing time effectively while studying, and ensure that the study plan is designed to help achieve the end goal. Additionally, please offer suggestions on how to stay motivated and focused during long-term studying, and provide guidance on how to evaluate progress and make adjustments to the study plan as needed.",
+        "Create a detailed study plan for mastering {topic} in {days} days. Please include specific tasks to be completed, recommendations for studying techniques or resources that would be helpful, suggestions for managing time effectively while studying, and ensure that the study plan is designed to help achieve the end goal. Additionally, please offer suggestions on how to stay motivated and focused during long-term studying, and provide guidance on how to evaluate progress and make adjustments to the study plan as needed. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{topic}": {
@@ -137,7 +137,7 @@ List<dynamic> formJSON = [
     "title": "Summarize the Text",
     "disc": "Easy & Quick to Understand",
     "prompt":
-        "Using Markdown format, summarize the text {text} in {count} words. Ensure the summary is clear, concise, and easy to understand for a general audience.",
+        "Summarize the text {text} in {count} words. Ensure the summary is clear, concise, and easy to understand for a general audience. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{text}": {
@@ -162,7 +162,7 @@ List<dynamic> formJSON = [
     "title": "Compare Topic",
     "disc": "Get Difference with Pros & Cons",
     "prompt":
-        "Please compare {topic1} and {topic2} and write a markdown-formatted document with a minimum of {count} differences between the two, including their pros and cons. Make sure to ground your comparison in reliable sources of information and data.",
+        "Please compare {topic1} and {topic2} and write a document with a minimum of {count} differences between the two, including their pros and cons. Make sure to ground your comparison in reliable sources of information and data. Please use appropriate markdown format to improve the readability and comprehension of the response.",
     "schema": {
       "properties": {
         "{topic1}": {
@@ -188,12 +188,14 @@ List<dynamic> formJSON = [
   },
   {
     "id": "mcq-type-quiz",
-    "icon": Icons.note_alt_rounded,
+    "icon": Icons.quiz,
     "color": 0xFF61c9a8,
     "title": "MCQ Type Quiz",
     "disc": "Generate MCQs with Answer",
     "prompt":
-        "Create a {number} multiple-choice quiz for topic {topic}. The output include the question, options, and correct answer for each question. Each question should be based on a distinct concept within the topic. Ensure that each question and option is semantically meaningful, and accurately reflects the content of the original topic. To achieve this, we will leverage the expertise of a Quiz Creator, a Domain Expert, and a Data Analyst. The Domain Expert will work with us to identify key concepts in the topic, the Data Analyst will use data analytics tools to analyze the results of the quiz and make improvements for future iterations. Format: Each question must starts with 'Question' keyword ,all option must starts with (A, B, C, D) enclosed with parentheses and correct answer must starts with 'Answer' keyword.",
+        "create a mcq quiz on topic {topic} in json format with keys question, options with list of option and answer, and all objects must be contain in key questions. Response should directly starts with {}."
+    // "Create a {number} multiple-choice quiz for topic {topic}. The output include the question, options, and correct answer for each question. Each question should be based on a distinct concept within the topic. Ensure that each question and option is semantically meaningful, and accurately reflects the content of the original topic. To achieve this, we will leverage the expertise of a Quiz Creator, a Domain Expert, and a Data Analyst. The Domain Expert will work with us to identify key concepts in the topic, the Data Analyst will use data analytics tools to analyze the results of the quiz and make improvements for future iterations. Format: Each question must starts with 'Question' keyword ,all option must starts with (A, B, C, D) enclosed with parentheses and correct answer must starts with 'Answer' keyword."
+    ,
     "schema": {
       "properties": {
         "{topic}": {

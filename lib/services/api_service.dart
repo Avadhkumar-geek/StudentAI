@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:student_ai/data/constants.dart';
 
 /*
 curl --location 'https://api.pawan.krd/v1/chat/completions' \
@@ -15,8 +15,7 @@ curl --location 'https://api.pawan.krd/v1/chat/completions' \
 class ApiService {
   static Future<String> fetchApi(String apiKey, String content) async {
     try {
-      const String url =
-          'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String url = 'https://api.hypere.app/v1/chat/completions';
 
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
@@ -25,12 +24,8 @@ class ApiService {
       };
 
       final Map<String, dynamic> data = {
-        'model': 'gpt-4',
+        'model': 'gpt-3.5-turbo',
         'messages': [
-          {
-            "role": "system",
-            "content": formatter,
-          },
           {
             'role': 'user',
             'content': content,
@@ -48,7 +43,9 @@ class ApiService {
         String content = choice['message']['content'];
         output += content;
       });
-      print(resData);
+      if (kDebugMode) {
+        print(resData);
+      }
 
       return output;
     } catch (e) {
@@ -58,8 +55,7 @@ class ApiService {
 
   static Future<bool> validateApiKey(String apiKey) async {
     try {
-      const String url =
-          'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String url = 'https://api.hypere.app/v1/chat/completions';
 
       final Map<String, String> headers = {
         // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
@@ -68,11 +64,11 @@ class ApiService {
       };
 
       final Map<String, dynamic> data = {
-        'model': 'gpt-4',
+        'model': 'gpt-3.5-turbo',
         'messages': [
           {
             'role': 'user',
-            'content': 'hi',
+            'content': '2+2=',
           }
         ],
       };

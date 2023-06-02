@@ -36,7 +36,7 @@ class AiMessage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               // border: Border.all(width: 2, color: Colors.lightGreen),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             margin: const EdgeInsets.all(8),
             child: Markdown(
               padding: EdgeInsets.zero,
@@ -44,7 +44,7 @@ class AiMessage extends StatelessWidget {
               selectable: true,
               styleSheet:
                   MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                p: const TextStyle(fontSize: 14),
+                p: const TextStyle(fontSize: 16),
                 code: const TextStyle(
                     fontSize: 14, color: kBlack, backgroundColor: kTransparent),
                 codeblockDecoration: BoxDecoration(
