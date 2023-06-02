@@ -3,7 +3,7 @@ import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/form_json.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
-import 'package:student_ai/widgets/message.dart';
+import 'package:student_ai/screen/quiz.dart';
 import 'package:student_ai/widgets/my_text_field.dart';
 
 class MyForm extends StatefulWidget {
@@ -14,14 +14,13 @@ class MyForm extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MyFormState createState() => _MyFormState();
+  State<MyForm> createState() => _MyFormState();
 }
 
 class _MyFormState extends State<MyForm> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> formFields = {};
   Map<String, dynamic> submittedData = {};
-  List<Message> msgList = [];
   late Map<String, TextEditingController> formFieldControllers = {};
 
   @override
@@ -55,10 +54,12 @@ class _MyFormState extends State<MyForm> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => ChatScreen(
-              queryController: submittedData.toString(),
-              isFormRoute: true,
-            ),
+            builder: (BuildContext context) => widget.id == 'mcq-type-quiz'
+                ? Quiz(queryController: submittedData.toString())
+                : ChatScreen(
+                    queryController: submittedData.toString(),
+                    isFormRoute: true,
+                  ),
           ),
         );
       }
@@ -93,39 +94,34 @@ class _MyFormState extends State<MyForm> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: formFields.length,
-                        itemBuilder: (context, index) {
-                          var field = formFields.entries.elementAt(index);
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    field.value['title'],
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: formFields.length,
+                    itemBuilder: (context, index) {
+                      var field = formFields.entries.elementAt(index);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                field.value['title'],
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                MyTextField(
-                                    field: field,
-                                    formFieldControllers: formFieldControllers),
-                              ],
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                            MyTextField(
+                                field: field,
+                                formFieldControllers: formFieldControllers),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -133,6 +129,8 @@ class _MyFormState extends State<MyForm> {
                 height: 16,
               ),
               MaterialButton(
+                elevation: 0,
+                splashColor: kBlack,
                 onPressed: _submitForm,
                 color: kButtonColor,
                 shape: RoundedRectangleBorder(

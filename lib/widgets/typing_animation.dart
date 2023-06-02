@@ -7,8 +7,8 @@ class TypingAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: const [
+    return const Row(
+      children: [
         SizedBox(
           width: 30,
           child: SpinKitThreeInOut(

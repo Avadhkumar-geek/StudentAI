@@ -42,15 +42,15 @@ class CardWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 12,
+                horizontal: 16,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     data['title'],
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -59,8 +59,8 @@ class CardWidget extends StatelessWidget {
                   ),
                   Text(
                     data['disc'],
-                    style: const TextStyle(
-                      fontSize: 15,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
                       color: Colors.black54,
                       fontWeight: FontWeight.w600,
                     ),
