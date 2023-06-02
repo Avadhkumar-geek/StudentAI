@@ -37,8 +37,12 @@ class Score extends StatelessWidget {
                   top: 50, bottom: 60, left: 60, right: 60),
               child: Text(
                 '$correct/$total',
-                style: const TextStyle(
-                    color: kWhite, fontSize: 80, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: kWhite,
+                    fontSize: 80,
+                    fontWeight: FontWeight.bold,
+                    fontFamily:
+                        Theme.of(context).textTheme.bodyLarge!.fontFamily),
               ),
             ),
           ],

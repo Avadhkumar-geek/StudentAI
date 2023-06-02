@@ -13,12 +13,4 @@ class Question {
       answer: json['answer'],
     );
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['question'] = this.question;
-    data['options'] = this.options;
-    data['answer'] = this.answer;
-    return data;
-  }
 }
