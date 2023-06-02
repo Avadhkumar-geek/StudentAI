@@ -8,6 +8,7 @@ import 'package:student_ai/data/quiz_model.dart';
 import 'package:student_ai/screen/score.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/mcq.dart';
+import 'package:student_ai/widgets/question_list_builder.dart';
 
 class Quiz extends StatefulWidget {
   final String queryController;
@@ -50,9 +51,8 @@ class _QuizState extends State<Quiz> {
 
   void _submitQuiz() {
     int correctAns = 0;
-    for (var i = 0; i <5; i++) {
+    for (var i = 0; i <answers.length; i++) {
       if (answers[i] == selectedOptions[i]) correctAns++;
-      // selectedOptions.remove(option);
     }
     setState(() {
       _isSubmitted = true;
@@ -89,21 +89,7 @@ class _QuizState extends State<Quiz> {
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
-                    ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: questionJSON.length,
-                      itemBuilder: (context, index) {
-                        var mcq = questionJSON.elementAt(index);
-                        return MCQ(
-                          index: index,
-                          mcq: mcq,
-                          selectedOptions: selectedOptions,
-                          isSumitted: _isSubmitted,
-                        );
-                      },
-                    ),
+                    QuestionListBuilder(questionJSON: questionJSON, selectedOptions: selectedOptions, isSubmitted: _isSubmitted),
                     const SizedBox(
                       height: 16,
                     ),
