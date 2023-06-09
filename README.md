@@ -27,8 +27,8 @@ Once the app is running, you can start chatting with StudentAI by typing in your
 ####  API Key
 Do not forget to add you API key in app before start using.
 1. You can get API key from official [openAI account](https://beta.openai.com/account/api-keys)
-2. You can get using free key Providers from github repo/discord server. ex [ChimeraGPT](https://discord.gg/QT9nqnc3bP) 
-3. Join above discord and send command `/get key` to get your API key
+2. You can get using free key Providers from github repo/discord server. ex [FoxGPT](https://discord.gg/DZnFebu8tP) 
+3. Join above discord and send command `/key` to get your API key
 
 ### Examples
 
