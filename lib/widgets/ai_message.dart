@@ -32,7 +32,7 @@ class AiMessage extends StatelessWidget {
         Flexible(
           child: Container(
             decoration: BoxDecoration(
-              color: kLightGreen.withOpacity(0.6),
+              color: kAiMsgBg,
               borderRadius: BorderRadius.circular(20),
               // border: Border.all(width: 2, color: Colors.lightGreen),
             ),
@@ -79,6 +79,7 @@ class AiMessage extends StatelessWidget {
             child: const Icon(
               Icons.copy_rounded,
               size: 15,
+              color: kWhite,
             ),
           ),
         ),

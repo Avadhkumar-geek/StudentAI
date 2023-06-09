@@ -68,74 +68,67 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-    return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [kOrange, Colors.blue])),
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: kChatBackGround,
+      appBar: AppBar(
+        foregroundColor: kWhite,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          foregroundColor: kBlack,
-          backgroundColor: Colors.transparent,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Chat',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              _isTyping ? const TypingAnimation() : Container(),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.delete_outline_outlined),
-              onPressed: () {
-                setState(
-                  () {
-                    msgList.clear();
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-        body: Column(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
-              child: ListView.builder(
-                reverse: true,
-                physics: const BouncingScrollPhysics(),
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                // shrinkWrap: true,
-                itemCount: msgList.length,
-                itemBuilder: (context, index) => Message(
-                  sender: msgList[index].sender,
-                  text: msgList[index].text,
-                ),
-              ),
+            const Text(
+              'Chat',
+              style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            MySearchBar(
-              buttonColor: _isTyping ? kDarkWhite : kBlack,
-              chatController: newQueryController,
-              onTap: () {
-                if (newQueryController.text.isNotEmpty && !_isTyping) {
-                  sendMessage(newQueryController.text);
-                  newQueryController.clear();
-                }
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            )
+            _isTyping ? const TypingAnimation() : Container(),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_outline_outlined),
+            onPressed: () {
+              setState(
+                () {
+                  msgList.clear();
+                },
+              );
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Flexible(
+            child: ListView.builder(
+              reverse: true,
+              physics: const BouncingScrollPhysics(),
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              // shrinkWrap: true,
+              itemCount: msgList.length,
+              itemBuilder: (context, index) => Message(
+                sender: msgList[index].sender,
+                text: msgList[index].text,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          MySearchBar(
+            buttonColor: _isTyping ? kDarkWhite : kBlack,
+            chatController: newQueryController,
+            onTap: () {
+              if (newQueryController.text.isNotEmpty && !_isTyping) {
+                sendMessage(newQueryController.text);
+                newQueryController.clear();
+              }
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          )
+        ],
       ),
     );
   }

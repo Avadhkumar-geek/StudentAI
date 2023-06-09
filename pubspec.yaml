@@ -44,6 +44,9 @@ dependencies:
   shared_preferences: ^2.1.1
   flutter_spinkit: ^5.2.0
   url_launcher: ^6.1.11
+  video_player: ^2.6.1
+  share_plus: ^7.0.2
+  wiredash: ^1.7.0
 
 dev_dependencies:
   flutter_test:

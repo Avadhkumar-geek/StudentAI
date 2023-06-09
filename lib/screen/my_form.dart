@@ -4,6 +4,7 @@ import 'package:student_ai/data/form_json.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/quiz.dart';
+import 'package:student_ai/widgets/frosted_glass.dart';
 import 'package:student_ai/widgets/my_text_field.dart';
 
 class MyForm extends StatefulWidget {
@@ -70,85 +71,76 @@ class _MyFormState extends State<MyForm> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.blue, kOrange])),
-      child: Scaffold(
-        backgroundColor: kTransparent,
-        appBar: AppBar(
-          backgroundColor: kTransparent,
-          elevation: 0.0,
-          title: Text(
-            widget.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+        image: DecorationImage(
+          image: AssetImage('assets/bg.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: FrostedGlass(
+        widget: Scaffold(
+          backgroundColor: kBlack.withOpacity(0.5),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            elevation: 0.0,
+            title: Text(
+              widget.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Form(
-                  key: _formKey,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: formFields.length,
-                    itemBuilder: (context, index) {
-                      var field = formFields.entries.elementAt(index);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                field.value['title'],
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  for (var field in formFields.entries)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              field.value['title'],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            MyTextField(
-                                field: field,
-                                formFieldControllers: formFieldControllers),
-                          ],
-                        ),
-                      );
-                    },
+                          ),
+                          MyTextField(
+                              field: field,
+                              formFieldControllers: formFieldControllers),
+                        ],
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 16,
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              MaterialButton(
-                elevation: 0,
-                splashColor: kBlack,
-                onPressed: _submitForm,
-                color: kButtonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: kWhite,
+                  MaterialButton(
+                    onPressed: _submitForm,
+                    color: kAiMsgBg,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

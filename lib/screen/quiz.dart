@@ -7,6 +7,7 @@ import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/data/quiz_model.dart';
 import 'package:student_ai/screen/score.dart';
 import 'package:student_ai/services/api_service.dart';
+import 'package:student_ai/widgets/frosted_glass.dart';
 import 'package:student_ai/widgets/question_list_builder.dart';
 
 class Quiz extends StatefulWidget {
@@ -50,7 +51,7 @@ class _QuizState extends State<Quiz> {
 
   void _submitQuiz() {
     int correctAns = 0;
-    for (var i = 0; i <answers.length; i++) {
+    for (var i = 0; i < answers.length; i++) {
       if (answers[i] == selectedOptions[i]) correctAns++;
     }
     setState(() {
@@ -77,41 +78,56 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MCQ Quiz'),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/bg.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: _isTyping
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  children: [
-                    QuestionListBuilder(questionJSON: questionJSON, selectedOptions: selectedOptions, isSubmitted: _isSubmitted),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    MaterialButton(
-                      onPressed: _submitQuiz,
-                      color: kButtonColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: kWhite,
+      child: FrostedGlass(
+        widget: Scaffold(
+          backgroundColor: kBlack.withOpacity(0.6),
+          appBar: AppBar(
+            backgroundColor: kTransparent,
+            foregroundColor: kWhite,
+            title: const Text('MCQ Quiz'),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _isTyping
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        QuestionListBuilder(
+                            questionJSON: questionJSON,
+                            selectedOptions: selectedOptions,
+                            isSubmitted: _isSubmitted),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        MaterialButton(
+                          onPressed: _submitQuiz,
+                          color: kAiMsgBg,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+            ),
+          ),
         ),
       ),
     );
