@@ -14,14 +14,16 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onEditingComplete: () {
+        FocusScope.of(context).nextFocus();
+      },
       maxLines: 3,
       minLines: 1,
       keyboardType: typeMap[field.value['type']],
       controller: formFieldControllers[field.key],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintText: field.value['placeholder'],
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),

@@ -22,6 +22,7 @@ const kSupportCard2 = Color.fromRGBO(28, 103, 202, 1);
 const kSupportCard3 = Color.fromRGBO(36, 120, 129, 1);
 const kTransparent = Colors.transparent;
 const kWhite = Colors.white;
+const kGrey = Colors.grey;
 const kWhite70 = Colors.white70;
 const kGreen = Colors.green;
 const kBlue = Colors.blue;

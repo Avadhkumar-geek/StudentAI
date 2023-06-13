@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/data/secrets.dart';
 import 'package:student_ai/screen/home.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -12,7 +13,6 @@ Future main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   runApp(const MyApp());
-  // await dotenv.load(fileName: '.env');
   getAPIKeyFromStorage();
 }
 
@@ -25,15 +25,15 @@ class MyApp extends StatelessWidget {
       feedbackOptions: const WiredashFeedbackOptions(
         labels: [
           Label(
-            id: 'LABEL-ID',
+            id: label1,
             title: 'Bug',
           ),
           Label(
-            id: 'LABEL-ID',
+            id: label2,
             title: 'Improvement',
           ),
           Label(
-            id: 'LABEL-ID',
+            id: label13,
             title: 'Feature Request',
           ),
         ],
@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
         secondaryColor: kChatBackGround,
         brightness: Brightness.dark,
       ),
-      projectId: 'PROJECT-ID',
-      secret: 'SECRET-KEY',
+      projectId: projectId,
+      secret: secretKey,
       child: MaterialApp(
         theme: ThemeData(
           useMaterial3: true,

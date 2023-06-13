@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
-import 'package:student_ai/data/message_model.dart';
+import 'package:student_ai/models/message_model.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/message.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
@@ -12,17 +14,16 @@ class ChatScreen extends StatefulWidget {
   final String queryController;
   bool isFormRoute;
 
-  ChatScreen(
-      {Key? key, required this.queryController, required this.isFormRoute})
-      : super(key: key);
+  ChatScreen({Key? key, required this.queryController, required this.isFormRoute}) : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateMixin {
   List<MessageModel> msgList = [];
 
+  late AnimationController _aniController;
   final TextEditingController newQueryController = TextEditingController();
   bool _isTyping = false;
   final ScrollController _scrollController = ScrollController();
@@ -61,8 +62,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    sendMessage(widget.queryController);
     super.initState();
+    sendMessage(widget.queryController);
+    _aniController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _aniController.dispose();
   }
 
   @override
@@ -86,13 +97,36 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_outline_outlined),
-            onPressed: () {
-              setState(
-                () {
-                  msgList.clear();
-                },
-              );
-            },
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Clear this chat?'),
+                content: const Text('This action can not be undone'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        msgList.clear();
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'clear',
+                      style: TextStyle(fontSize: 18, color: Colors.red),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'cancel',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -116,14 +150,39 @@ class _ChatScreenState extends State<ChatScreen> {
             height: 16,
           ),
           MySearchBar(
-            buttonColor: _isTyping ? kDarkWhite : kBlack,
+            hintText: 'Ask Anything...',
             chatController: newQueryController,
-            onTap: () {
-              if (newQueryController.text.isNotEmpty && !_isTyping) {
-                sendMessage(newQueryController.text);
-                newQueryController.clear();
-              }
-            },
+            suffixIcon: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  HapticFeedback.heavyImpact();
+                  _aniController.forward().then((value) => _aniController.reset());
+                  if (newQueryController.text.isNotEmpty && !_isTyping) {
+                    sendMessage(newQueryController.text);
+                    newQueryController.clear();
+                  }
+                  FocusScope.of(context).unfocus();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(23),
+                    color: _isTyping ? kDarkWhite : kBlack,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: RotationTransition(
+                      turns: Tween(begin: 0.0, end: 1.5).animate(_aniController),
+                      child: SvgPicture.asset(
+                        'assets/openai.svg',
+                        width: 30,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           const SizedBox(
             height: 20,

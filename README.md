@@ -1,6 +1,6 @@
 ## StudentAI
 
-StudentAI is an AI chatbot app that helps students to learn more effectively. It uses OpenAI's API to provide students with personalized learning experiences.
+StudentAI is an AI chat-bot app that helps students to learn more effectively. It uses OpenAI's API to provide students with personalized learning experiences.
 
 ### Features
 
@@ -8,7 +8,7 @@ StudentAI is an AI chatbot app that helps students to learn more effectively. It
 * Access to a vast knowledge base
 * Ability to answer questions in a comprehensive and informative way
 * User-friendly interface
-* Chatbot with OpenAI's API integration
+* Chat bot with OpenAI's API integration
 * Supports queries from multiple subjects and topics
 
 ### Getting Started
@@ -17,8 +17,25 @@ To get started with StudentAI, you will need to:
 
 1. Install the Flutter SDK.
 2. Clone the StudentAI repository.
-3. Run `flutter pub get` to install the dependencies.
-4. Run `flutter run` to start the app.
+3. Create a file named `secrets.dart` in the `/lib/data` directory and copy the following code into it:
+
+    ```dart
+    //This file is intended for development purposes only. Please ensure that you add it to the .gitignore file before pushing your source code anywhere.
+    const String devApiKey = 'YOUR-API-KEY';
+    
+    // wiredash secrets
+    // Create account in https://wiredash.io/ to use its Feedback SDK
+    const String label1 = 'LABEL-ID';
+    const String label2 = 'LABEL-ID';
+    const String label13 = 'LABEL-ID';
+    const String projectId = 'PROJECT-ID';
+    const String secretKey = 'SECRET-KEY';
+    ```
+    
+    This application stores all its secrets in the `secrets.dart` file. Please ensure that you keep this file secure and out of version control systems like Git. It is also recommended that you don't hardcode secrets in your code and instead use encrypted environment variables.
+
+4. Run `flutter pub get` to install the dependencies.
+5. Run `flutter run` to start the app.
 
 ### Usage
 

@@ -10,13 +10,6 @@ class FeedbackCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // showModalBottomSheet(
-        //     isScrollControlled: true,
-        //     backgroundColor: kChatBackGround,
-        //     showDragHandle: true,
-        //     useSafeArea: true,
-        //     context: context,
-        //     builder: (context) => const FeedBackRoute());
         Wiredash.of(context).show();
       },
       child: const SupportCard(

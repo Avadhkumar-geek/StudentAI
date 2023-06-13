@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
-import 'package:student_ai/data/quiz_model.dart';
-import 'package:student_ai/screen/score.dart';
+import 'package:student_ai/models/quiz_model.dart';
+import 'package:student_ai/screen/quiz_result.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/frosted_glass.dart';
 import 'package:student_ai/widgets/question_list_builder.dart';
@@ -44,7 +44,7 @@ class _QuizState extends State<Quiz> {
       }).toList();
     } catch (e) {
       if (kDebugMode) {
-        print("Error: $e");
+        print("Quiz error: $e");
       }
     }
   }
@@ -57,16 +57,16 @@ class _QuizState extends State<Quiz> {
     setState(() {
       _isSubmitted = true;
     });
-    if (kDebugMode) {
-      print(answers);
-      print(selectedOptions);
-    }
+
+    // if (kDebugMode) {
+    //   print(answers);
+    //   print(selectedOptions);
+    // }
 
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              Score(total: answers.length, correct: correctAns),
+          builder: (context) => QuizResult(total: answers.length, correct: correctAns),
         ));
   }
 
@@ -81,7 +81,7 @@ class _QuizState extends State<Quiz> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/bg.jpg'),
+          image: AssetImage('assets/bg.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -93,20 +93,32 @@ class _QuizState extends State<Quiz> {
             foregroundColor: kWhite,
             title: const Text('MCQ Quiz'),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: _isTyping
-                  ? const Center(child: CircularProgressIndicator())
-                  : Column(
+          body: _isTyping
+              ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Generating Quiz...',
+                        style: TextStyle(color: kWhite, fontSize: 25),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80.0),
+                        child: LinearProgressIndicator(
+                          minHeight: 3,
+                          color: kAiMsgBg,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
                       children: [
                         QuestionListBuilder(
-                            questionJSON: questionJSON,
-                            selectedOptions: selectedOptions,
-                            isSubmitted: _isSubmitted),
-                        const SizedBox(
-                          height: 16,
-                        ),
+                            questionJSON: questionJSON, selectedOptions: selectedOptions, isSubmitted: _isSubmitted),
                         MaterialButton(
                           onPressed: _submitQuiz,
                           color: kAiMsgBg,
@@ -124,10 +136,13 @@ class _QuizState extends State<Quiz> {
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 25,
+                        ),
                       ],
                     ),
-            ),
-          ),
+                  ),
+                ),
         ),
       ),
     );

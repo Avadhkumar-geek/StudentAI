@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/quiz_model.dart';
+import 'package:student_ai/models/quiz_model.dart';
 import 'package:student_ai/widgets/mcq.dart';
 
 class QuestionListBuilder extends StatelessWidget {
@@ -27,7 +27,7 @@ class QuestionListBuilder extends StatelessWidget {
           index: index,
           mcq: mcq,
           selectedOptions: selectedOptions,
-          isSumitted: _isSubmitted,
+          isSubmitted: _isSubmitted,
         );
       },
     );
