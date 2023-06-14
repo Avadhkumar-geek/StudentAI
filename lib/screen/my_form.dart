@@ -5,6 +5,7 @@ import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/quiz.dart';
 import 'package:student_ai/services/api_service.dart';
+import 'package:student_ai/widgets/dummy_form.dart';
 import 'package:student_ai/widgets/my_text_field.dart';
 
 class MyForm extends StatefulWidget {
@@ -104,11 +105,7 @@ class _MyFormState extends State<MyForm> {
         ),
         body: SingleChildScrollView(
           child: formFields.isEmpty
-              ? Center(
-                  heightFactor: MediaQuery.of(context).size.height * 0.02,
-                  child: const CircularProgressIndicator(
-                    color: kWhite,
-                  ))
+              ? DummyForm(title: widget.title)
               : Column(
                   children: [
                     Container(
