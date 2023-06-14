@@ -30,7 +30,8 @@ class CardWidget extends StatelessWidget {
       ),
       child: FrostedGlass(
         widget: Container(
-          decoration: BoxDecoration(color: Color(int.parse(data.color.toString())).withOpacity(0.6)),
+          decoration:
+              BoxDecoration(color: Color(int.parse(data.color.toString())).withOpacity(0.6)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -3,20 +3,20 @@ import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/widgets/frosted_glass.dart';
 
 class MySearchBar extends StatefulWidget {
-  MySearchBar(
+  const MySearchBar(
       {Key? key,
       required this.chatController,
       required this.hintText,
       required this.suffixIcon,
-      this.onComplete,
-      this.onChanged})
+      required this.onComplete,
+      required this.onChanged})
       : super(key: key);
 
   final TextEditingController chatController;
   final String hintText;
   final Widget suffixIcon;
-  VoidCallback? onComplete;
-  VoidCallback? onChanged;
+  final VoidCallback onComplete;
+  final VoidCallback onChanged;
   static const double borderWidth = 3.0;
 
   @override
@@ -48,6 +48,7 @@ class _MySearchBarState extends State<MySearchBar> {
             color: kWhite,
             fontWeight: FontWeight.w500,
           ),
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             enabledBorder: OutlineInputBorder(
@@ -71,7 +72,7 @@ class _MySearchBarState extends State<MySearchBar> {
             FocusScope.of(context).unfocus();
           },
           onChanged: (val) {
-            widget.onChanged!();
+            widget.onChanged();
           },
         ),
       ),

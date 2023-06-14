@@ -20,7 +20,7 @@ class AppTitle extends StatelessWidget {
               }),
           child: SvgPicture.asset(
             'assets/logo.svg',
-            width: 35,
+            width: 50,
           ),
         ),
         const SizedBox(

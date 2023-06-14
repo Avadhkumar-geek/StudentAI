@@ -26,7 +26,7 @@ class AiMessage extends StatelessWidget {
               backgroundColor: kWhite.withOpacity(0.3),
               child: SvgPicture.asset(
                 'assets/logo.svg',
-                width: 25,
+                width: 35,
               )),
         ),
         Flexible(
@@ -42,11 +42,9 @@ class AiMessage extends StatelessWidget {
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               selectable: true,
-              styleSheet:
-                  MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+              styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
                 p: const TextStyle(fontSize: 16),
-                code: const TextStyle(
-                    fontSize: 14, color: kBlack, backgroundColor: kTransparent),
+                code: const TextStyle(fontSize: 14, color: kBlack, backgroundColor: kTransparent),
                 codeblockDecoration: BoxDecoration(
                   color: kBlack.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(8.0),

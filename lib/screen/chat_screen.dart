@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/data/secrets.dart';
 import 'package:student_ai/models/message_model.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/message.dart';
@@ -14,7 +15,8 @@ class ChatScreen extends StatefulWidget {
   final String queryController;
   bool isFormRoute;
 
-  ChatScreen({Key? key, required this.queryController, required this.isFormRoute}) : super(key: key);
+  ChatScreen({Key? key, required this.queryController, required this.isFormRoute})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -47,7 +49,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
 
   Future<void> fetchData(String qry) async {
     try {
-      String fetchRes = await ApiService.fetchApi(apiKey!, qry);
+      final String key = openai ? apiKey! : devApiKey;
+      String fetchRes = await ApiService.fetchApi(key, qry);
 
       setState(() {
         _isTyping = false;
@@ -55,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       });
     } catch (e) {
       if (kDebugMode) {
-        print("Error: $e");
+        print("Chat Screen error: $e");
       }
     }
   }
@@ -100,8 +103,15 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             onPressed: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('Clear this chat?'),
-                content: const Text('This action can not be undone'),
+                backgroundColor: kBlack,
+                title: const Text(
+                  'Clear this chat?',
+                  style: TextStyle(color: kWhite),
+                ),
+                content: const Text(
+                  'This action can not be undone',
+                  style: TextStyle(color: kWhite),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -111,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      'clear',
+                      'Clear',
                       style: TextStyle(fontSize: 18, color: Colors.red),
                     ),
                   ),
@@ -120,8 +130,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      'cancel',
-                      style: TextStyle(fontSize: 18),
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: kRadiumGreen,
+                      ),
                     ),
                   ),
                 ],
@@ -150,6 +163,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             height: 16,
           ),
           MySearchBar(
+            onComplete: () {},
+            onChanged: () {},
             hintText: 'Ask Anything...',
             chatController: newQueryController,
             suffixIcon: Padding(

@@ -11,7 +11,7 @@ import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/my_form.dart';
 import 'package:student_ai/screen/search_screen.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/apiKey_button.dart';
+import 'package:student_ai/widgets/apikey_button.dart';
 import 'package:student_ai/widgets/app_title.dart';
 import 'package:student_ai/widgets/card_widget.dart';
 import 'package:student_ai/widgets/dummy_cards.dart';
@@ -69,7 +69,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     //     ));
     // _controller.setLooping(true);
     // _controller.play();
-
+    loadApps();
     ApiService.serverStatus().then((status) {
       setState(() {
         isServerUp = status;
@@ -78,13 +78,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       ApiService.serverStatus().then((status) {
-        setState(() {
-          isServerUp = status;
-        });
+        if (status != isServerUp) {
+          setState(() {
+            isServerUp = status;
+          });
+        }
       });
     });
-
-    loadApps();
 
     _aniController = AnimationController(
       duration: const Duration(milliseconds: 1000),
@@ -158,6 +158,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             MySearchBar(
               hintText: 'Ask Anything...',
               chatController: chatController,
+              onChanged: () {},
+              onComplete: () {},
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
@@ -165,7 +167,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   onTap: () {
                     HapticFeedback.heavyImpact();
                     _aniController.forward().then((value) => _aniController.reset());
-                    if (isAPIValidated == false) {
+                    if (openai && isAPIValidated == false) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Enter a valid API Key'),

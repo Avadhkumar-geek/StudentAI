@@ -60,9 +60,11 @@ class _MyFormState extends State<MyForm> {
         submittedData[key] = controller.text;
       });
 
-      if (isAPIValidated == false) {
+      if (openai && isAPIValidated == false) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+            elevation: 3,
+            behavior: SnackBarBehavior.floating,
             content: Text('Enter a valid API Key'),
             backgroundColor: kRed,
           ),
@@ -87,61 +89,67 @@ class _MyFormState extends State<MyForm> {
   Widget build(BuildContext context) {
     return formFields.isEmpty
         ? DummyForm(title: widget.title)
-        : Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Text(
-                  widget.title,
-                  style: const TextStyle(color: kWhite, fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                for (var field in formFields.entries)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                    child: FocusTraversalGroup(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              field.value['title'],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
+        : Scaffold(
+            backgroundColor: kTransparent,
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Text(
+                      widget.title,
+                      style:
+                          const TextStyle(color: kWhite, fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    for (var field in formFields.entries)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                        child: FocusTraversalGroup(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  field.value['title'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
+                              MyTextField(
+                                field: field,
+                                formFieldControllers: formFieldControllers,
+                              ),
+                            ],
                           ),
-                          MyTextField(
-                            field: field,
-                            formFieldControllers: formFieldControllers,
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    MaterialButton(
+                      onPressed: _submitForm,
+                      color: kAiMsgBg,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                const SizedBox(
-                  height: 16,
+                  ],
                 ),
-                MaterialButton(
-                  onPressed: _submitForm,
-                  color: kAiMsgBg,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           );
   }

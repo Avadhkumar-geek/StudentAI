@@ -118,7 +118,9 @@ class _QuizState extends State<Quiz> {
                     child: Column(
                       children: [
                         QuestionListBuilder(
-                            questionJSON: questionJSON, selectedOptions: selectedOptions, isSubmitted: _isSubmitted),
+                            questionJSON: questionJSON,
+                            selectedOptions: selectedOptions,
+                            isSubmitted: _isSubmitted),
                         MaterialButton(
                           onPressed: _submitQuiz,
                           color: kAiMsgBg,
@@ -126,7 +128,7 @@ class _QuizState extends State<Quiz> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: const Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(12.0),
                             child: Text(
                               'Submit',
                               style: TextStyle(
