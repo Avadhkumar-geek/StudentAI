@@ -59,16 +59,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // _controller = VideoPlayerController.asset('assets/video.mp4');
-    //
-    // _controller.addListener(() {
-    //   setState(() {});
-    // });
-    // _controller.initialize().then((value) => setState(
-    //       () {},
-    //     ));
-    // _controller.setLooping(true);
-    // _controller.play();
     loadApps();
     ApiService.serverStatus().then((status) {
       setState(() {
@@ -116,22 +106,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           KeyButton(isServerUp: isServerUp),
         ],
       ),
-      body:
-          // Stack(
-          //   children: [
-          //     Center(
-          //       child: SizedBox.expand(
-          //         child: FittedBox(
-          //           fit: BoxFit.fitHeight,
-          //           child: SizedBox(
-          //               width: _controller.value.size.width,
-          //               height: _controller.value.size.height,
-          //               child: VideoPlayer(_controller),
-          //               ),
-          //         ),
-          //       ),
-          //     ),
-          Container(
+      body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/bg.png'),

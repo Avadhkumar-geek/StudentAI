@@ -32,7 +32,6 @@ class ApiService {
 
       Map<String, dynamic> resData = jsonDecode(const Utf8Decoder().convert(res.bodyBytes));
 
-      print("Res ${res.body}");
       String output = '';
       resData['choices'].forEach((choice) {
         String content = choice['message']['content'];
@@ -46,7 +45,6 @@ class ApiService {
 
       return output;
     } catch (e) {
-      print(e);
       return "Something went wrong!! Please, try again later.";
     }
   }
@@ -54,8 +52,6 @@ class ApiService {
   static Future<bool> validateApiKey(String apiKey) async {
     try {
       const String url = 'https://api.openai.com/v1/chat/completions';
-
-      // const String url = 'https://api.hypere.app/v1/chat/completions';
 
       final Map<String, String> headers = {
         'authorization': "Bearer $apiKey",
@@ -91,8 +87,6 @@ class ApiService {
   static Future<bool> serverStatus() async {
     try {
       const String url = 'https://chimeragpt.adventblocks.cc/';
-
-      // const String url = 'https://api.hypere.app/v1/chat/completions';
 
       final res = await http.get(Uri.parse(url));
 
