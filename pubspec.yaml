@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.11
   share_plus: ^7.0.2
   wiredash: ^1.7.0
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
