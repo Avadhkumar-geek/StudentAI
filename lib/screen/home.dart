@@ -203,6 +203,13 @@ class _HomeState extends State<Home> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
+                    appData.isEmpty
+                        ? const Center(
+                        heightFactor: 12,
+                        child: CircularProgressIndicator(
+                          color: kButtonColor,
+                        ))
+                        :
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
