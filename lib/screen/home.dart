@@ -30,6 +30,8 @@ class _HomeState extends State<Home> {
   final TextEditingController chatController = TextEditingController();
   List<AppData> appData = [];
 
+  // late VideoPlayerController _controller;
+
   void loadApps() async {
     try {
       var data = await ApiService.getApps(limit: 5);
@@ -201,32 +203,26 @@ class _HomeState extends State<Home> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    appData.isEmpty
-                        ? const Center(
-                            heightFactor: 12,
-                            child: CircularProgressIndicator(
-                              color: kButtonColor,
-                            ))
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: cardAspectRatio,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            itemCount: appData.length,
-                            itemBuilder: (context, index) {
-                              final data = appData[index];
-                              return CardWidget(
-                                id: data.id,
-                                data: data,
-                                pageRoute: MyForm(id: data.id, title: data.title),
-                              );
-                            },
-                          ),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: cardAspectRatio,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: appData.length,
+                      itemBuilder: (context, index) {
+                        final data = appData[index];
+                        return CardWidget(
+                          id: data.id,
+                          data: data,
+                          pageRoute: MyForm(id: data.id, title: data.title),
+                        );
+                      },
+                    ),
                     Container(
                       margin: const EdgeInsets.only(top: 100, bottom: 50),
                       child: Text.rich(
