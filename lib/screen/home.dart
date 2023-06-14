@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
   void loadApps() async {
     try {
-      var data = await ApiService.getApps(limit: 5);
+      var data = await ApiService.getApps();
       setState(() {
         appData = data;
       });
