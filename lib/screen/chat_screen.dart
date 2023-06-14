@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
-import 'package:student_ai/data/message_model.dart';
+import 'package:student_ai/models/message_model.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/message.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
@@ -12,8 +12,7 @@ class ChatScreen extends StatefulWidget {
   final String queryController;
   bool isFormRoute;
 
-  ChatScreen(
-      {Key? key, required this.queryController, required this.isFormRoute})
+  ChatScreen({Key? key, required this.queryController, required this.isFormRoute})
       : super(key: key);
 
   @override

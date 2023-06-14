@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/quiz_model.dart';
+import 'package:student_ai/models/quiz_model.dart';
 
 class MCQ extends StatefulWidget {
   const MCQ(
       {Key? key,
       required this.mcq,
       required this.selectedOptions,
-      required this.isSumitted, required this.index})
+      required this.isSumitted,
+      required this.index})
       : super(key: key);
 
   final int index;
@@ -44,9 +45,7 @@ class _MCQState extends State<MCQ> {
                 style: const TextStyle(fontSize: 18),
               ),
               subtitle: isSelected && widget.isSumitted
-                  ? (widget.mcq.answer != _selectedOption
-                      ? const Text('Wrong')
-                      : null)
+                  ? (widget.mcq.answer != _selectedOption ? const Text('Wrong') : null)
                   : null,
               value: option,
               groupValue: _selectedOption,

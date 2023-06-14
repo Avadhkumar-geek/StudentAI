@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/models/appdata_model.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/my_form.dart';
 import 'package:student_ai/services/api_service.dart';
@@ -11,9 +14,6 @@ import 'package:student_ai/widgets/card_widget.dart';
 import 'package:student_ai/widgets/info_card.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/server_indicator.dart';
-
-import '../data/constants.dart';
-import '../data/form_json.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -28,11 +28,29 @@ class _HomeState extends State<Home> {
   Timer? timer;
   bool isServerUp = false;
   final TextEditingController chatController = TextEditingController();
+  List<AppData> appData = [];
+
+  void loadApps() async {
+    try {
+      var data = await ApiService.getApps(limit: 5);
+      setState(() {
+        appData = data;
+      });
+      if (kDebugMode) {
+        print(appData);
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print("Home error: $err");
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
+    loadApps();
     ApiService.serverStatus().then((status) {
       setState(() {
         isServerUp = status;
@@ -183,33 +201,36 @@ class _HomeState extends State<Home> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: cardAspectRatio,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: formJSON.length,
-                      itemBuilder: (context, index) {
-                        final data = formJSON[index];
-                        return CardWidget(
-                          id: data['id'],
-                          data: data,
-                          pageRoute:
-                              MyForm(id: data['id'], title: data['title']),
-                        );
-                      },
-                    ),
+                    appData.isEmpty
+                        ? const Center(
+                            heightFactor: 12,
+                            child: CircularProgressIndicator(
+                              color: kButtonColor,
+                            ))
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: cardAspectRatio,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: appData.length,
+                            itemBuilder: (context, index) {
+                              final data = appData[index];
+                              return CardWidget(
+                                id: data.id,
+                                data: data,
+                                pageRoute: MyForm(id: data.id, title: data.title),
+                              );
+                            },
+                          ),
                     Container(
                       margin: const EdgeInsets.only(top: 100, bottom: 50),
                       child: Text.rich(
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                         TextSpan(
                           text: 'Made with ',
                           children: [

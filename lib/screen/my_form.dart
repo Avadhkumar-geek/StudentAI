@@ -1,17 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
-import 'package:student_ai/data/form_json.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/quiz.dart';
+import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/my_text_field.dart';
 
 class MyForm extends StatefulWidget {
   final String id;
   final String title;
 
-  const MyForm({Key? key, required this.id, required this.title})
-      : super(key: key);
+  const MyForm({Key? key, required this.id, required this.title}) : super(key: key);
 
   @override
   State<MyForm> createState() => _MyFormState();
@@ -23,15 +23,31 @@ class _MyFormState extends State<MyForm> {
   Map<String, dynamic> submittedData = {};
   late Map<String, TextEditingController> formFieldControllers = {};
 
+  Future<Map<String, dynamic>> loadForm() async {
+    try {
+      var data = await ApiService.getFormData(widget.id);
+      if (kDebugMode) {
+        print("MyForm: $data");
+      }
+      return data;
+    } catch (err) {
+      if (kDebugMode) {
+        print("MyForm error : $err");
+      }
+      return {};
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    var formJSONbyId = formJSON.firstWhere((data) => data['id'] == widget.id);
-    submittedData['prompt'] = formJSONbyId['prompt'];
-    formJSONbyId['schema']['properties'].forEach((key, value) {
-      formFields[key] = value;
-      formFieldControllers[key] =
-          TextEditingController(text: value['default'].toString());
+    loadForm().then((formJSONbyId) {
+      setState(() {});
+      submittedData['prompt'] = formJSONbyId['prompt'];
+      formJSONbyId['schema']['properties'].forEach((key, value) {
+        formFields[key] = value;
+        formFieldControllers[key] = TextEditingController(text: value['default'].toString());
+      });
     });
   }
 
@@ -87,69 +103,74 @@ class _MyFormState extends State<MyForm> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Form(
-                  key: _formKey,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: formFields.length,
-                    itemBuilder: (context, index) {
-                      var field = formFields.entries.elementAt(index);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                field.value['title'],
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+          child: formFields.isEmpty
+              ? Center(
+                  heightFactor: MediaQuery.of(context).size.height * 0.02,
+                  child: const CircularProgressIndicator(
+                    color: kWhite,
+                  ))
+              : Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Form(
+                        key: _formKey,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: formFields.length,
+                          itemBuilder: (context, index) {
+                            var field = formFields.entries.elementAt(index);
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      field.value['title'],
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  MyTextField(
+                                      field: field, formFieldControllers: formFieldControllers),
+                                ],
                               ),
-                            ),
-                            MyTextField(
-                                field: field,
-                                formFieldControllers: formFieldControllers),
-                          ],
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              MaterialButton(
-                elevation: 0,
-                splashColor: kBlack,
-                onPressed: _submitForm,
-                color: kButtonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: kWhite,
+                      ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    MaterialButton(
+                      elevation: 0,
+                      splashColor: kBlack,
+                      onPressed: _submitForm,
+                      color: kButtonColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: kWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );

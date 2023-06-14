@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/quiz_model.dart';
+import 'package:student_ai/models/quiz_model.dart';
 import 'package:student_ai/widgets/mcq.dart';
 
 class QuestionListBuilder extends StatelessWidget {

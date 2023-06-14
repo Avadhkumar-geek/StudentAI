@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/icons.dart';
+import 'package:student_ai/models/appdata_model.dart';
 
 class CardWidget extends StatelessWidget {
   const CardWidget({
@@ -9,19 +11,18 @@ class CardWidget extends StatelessWidget {
     required this.id,
   });
 
-  final Map<String, dynamic> data;
+  final AppData data;
   final Widget pageRoute;
   final String id;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => pageRoute)),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => pageRoute)),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Color(int.parse(data['color'].toString())),
+          color: Color(int.parse(data.color.toString())),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,7 @@ class CardWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Icon(
-                  data['icon'],
+                  icons[data.icon],
                   size: 25,
                 ),
               ),
@@ -48,7 +49,7 @@ class CardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data['title'],
+                    data.title,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.05,
                       fontWeight: FontWeight.bold,
@@ -58,7 +59,7 @@ class CardWidget extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    data['disc'],
+                    data.disc,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.04,
                       color: Colors.black54,

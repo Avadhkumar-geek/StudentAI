@@ -59,4 +59,3 @@ If you have any questions or feedback, please feel free to contact me at <avadhk
 ## References
 
 * [sandeepscet](https://github.com/sandeepscet/prompt-apps)
-* [FoxGPT](https://api.hypere.app/)
