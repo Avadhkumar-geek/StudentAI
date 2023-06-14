@@ -24,7 +24,7 @@ class _QuizState extends State<Quiz> {
 
   List<Question> questionJSON = [];
   List<String> answers = [];
-  List<String> selectedOptions = [];
+  Map<int, String> selectedOptions = {};
 
   Future<void> fetchData(String qry) async {
     try {
@@ -50,8 +50,8 @@ class _QuizState extends State<Quiz> {
 
   void _submitQuiz() {
     int correctAns = 0;
-    for (var option in selectedOptions) {
-      if (answers.contains(option)) correctAns++;
+    for (var i = 0; i <5; i++) {
+      if (answers[i] == selectedOptions[i]) correctAns++;
       // selectedOptions.remove(option);
     }
     setState(() {
@@ -97,6 +97,7 @@ class _QuizState extends State<Quiz> {
                       itemBuilder: (context, index) {
                         var mcq = questionJSON.elementAt(index);
                         return MCQ(
+                          index: index,
                           mcq: mcq,
                           selectedOptions: selectedOptions,
                           isSumitted: _isSubmitted,

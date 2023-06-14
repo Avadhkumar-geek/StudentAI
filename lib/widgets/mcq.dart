@@ -6,11 +6,12 @@ class MCQ extends StatefulWidget {
       {Key? key,
       required this.mcq,
       required this.selectedOptions,
-      required this.isSumitted})
+      required this.isSumitted, required this.index})
       : super(key: key);
 
+  final int index;
   final Question mcq;
-  final List<String> selectedOptions;
+  final Map<int, String> selectedOptions;
   final bool isSumitted;
   @override
   State<MCQ> createState() => _MCQState();
@@ -51,10 +52,8 @@ class _MCQState extends State<MCQ> {
               groupValue: _selectedOption,
               onChanged: (value) {
                 setState(() {
-                  widget.selectedOptions
-                      .removeWhere((element) => element == _selectedOption);
                   _selectedOption = value;
-                  widget.selectedOptions.add(_selectedOption!);
+                  widget.selectedOptions[widget.index] = _selectedOption!;
                 });
                 // print(_selectedOption);
               },
