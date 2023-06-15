@@ -1,33 +1,25 @@
 import 'dart:convert';
 
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
-/*
-curl --location 'https://api.pawan.krd/v1/chat/completions' \
---header 'authorization: Bearer apiKey' \
---header 'Content-Type: application/json' \
---data '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"Rewrite in "}],"max_tokens":2048}'
-
-*/
+import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/models/appdata_model.dart';
 
 class ApiService {
   static Future<String> fetchApi(String apiKey, String content) async {
     try {
-      // const String url =
-      //     'https://chimeragpt.adventblocks.cc/v1/chat/completions';
-      const String url = 'https://api.hypere.app/v1/chat/completions';
-
+      const String defaultUrl = 'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String openaiUrl = 'https://api.openai.com/v1/chat/completions';
+      String url = openai ? openaiUrl : defaultUrl;
 
       final Map<String, String> headers = {
-        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
+        // devApiKey is used for development purpose
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
 
       final Map<String, dynamic> data = {
-        'model': 'gpt-3.5-turbo',
+        'model': openai ? 'gpt-3.5-turbo' : 'gpt-4',
         'messages': [
           {
             'role': 'user',
@@ -36,17 +28,18 @@ class ApiService {
         ],
       };
 
-      final res = await http.post(Uri.parse(url),
-          headers: headers, body: json.encode(data));
+      final res = await http.post(Uri.parse(url), headers: headers, body: json.encode(data));
 
-      Map<String, dynamic> resData = jsonDecode(res.body);
+      Map<String, dynamic> resData = jsonDecode(const Utf8Decoder().convert(res.bodyBytes));
 
-      String output = "";
+      String output = '';
       resData['choices'].forEach((choice) {
         String content = choice['message']['content'];
         output += content;
       });
+
       if (kDebugMode) {
+        print("url: $url");
         print(resData);
       }
 
@@ -58,11 +51,9 @@ class ApiService {
 
   static Future<bool> validateApiKey(String apiKey) async {
     try {
-
-      const String url = 'https://api.hypere.app/v1/chat/completions';
+      const String url = 'https://api.openai.com/v1/chat/completions';
 
       final Map<String, String> headers = {
-        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
         'authorization': "Bearer $apiKey",
         'Content-Type': 'application/json'
       };
@@ -77,13 +68,12 @@ class ApiService {
         ],
       };
 
-      final res = await http.post(Uri.parse(url),
-          headers: headers, body: json.encode(data));
+      final res = await http.post(Uri.parse(url), headers: headers, body: json.encode(data));
 
-      if (kDebugMode) {
-        print('Status Code: ${res.statusCode}');
-        print(res.body);
-      }
+      // if (kDebugMode) {
+      //   print('Status Code: ${res.statusCode}');
+      //   print(res.body);
+      // }
 
       return res.statusCode == 200;
     } catch (e) {
@@ -96,36 +86,17 @@ class ApiService {
 
   static Future<bool> serverStatus() async {
     try {
-//       const String url =
-//           'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String url =
+          'https://chimeragpt.adventblocks.cc';
 
-      const String url = 'https://api.hypere.app/v1/chat/completions';
-
-      final Map<String, String> headers = {
-        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
-        'authorization': "Bearer apiKey",
-        'Content-Type': 'application/json'
-      };
-
-      final Map<String, dynamic> data = {
-        'model': 'gpt-3.5-turbo',
-        'messages': [
-          {
-            'role': 'user',
-            'content': '2+2=',
-          }
-        ],
-      };
-
-      final res = await http.post(Uri.parse(url),
-          headers: headers, body: json.encode(data));
+      final res = await http.get(Uri.parse(url));
 
       if (kDebugMode) {
         print('Status Code: ${res.statusCode}');
       }
-      if (kDebugMode) {
-        print(res.body);
-      }
+      // if (kDebugMode) {
+      //   print(res.body);
+      // }
 
       return res.statusCode == 200;
     } catch (e) {
@@ -133,6 +104,52 @@ class ApiService {
         print('Error : $e');
       }
       return false;
+    }
+  }
+
+  static Future<List<AppData>> getApps({int? limit, String? query, int? page}) async {
+    try {
+      String url =
+          'https://studentai-api.vercel.app/search?apps=${query ?? ""}&limit=${limit ?? 0}&page=${page ?? 0}';
+
+      final res = await http.get(Uri.parse(url));
+
+      Map<String, dynamic> data = jsonDecode(res.body);
+      List<dynamic> dataList = data['result'];
+      List<AppData> appData = dataList.map((e) => AppData.fromJson(e)).toList();
+
+      // if (kDebugMode) {
+      //   print("Results: ${data['results']}");
+      // }
+
+      return appData;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error : $e');
+      }
+      return [];
+    }
+  }
+
+  static Future<Map<String, dynamic>> getFormData(String id) async {
+    try {
+      String url = 'https://studentai-api.vercel.app/id/$id';
+
+      final res = await http.get(Uri.parse(url));
+
+      Map<String, dynamic> data = jsonDecode(res.body);
+      Map<String, dynamic> formData = data['result'];
+
+      // if (kDebugMode) {
+      //   print("Result: ${data['result']}");
+      // }
+      //
+      return formData;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error : $e');
+      }
+      return {};
     }
   }
 }

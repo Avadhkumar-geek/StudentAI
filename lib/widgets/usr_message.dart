@@ -20,14 +20,17 @@ class UsrMessage extends StatelessWidget {
         Flexible(
           child: Container(
             decoration: BoxDecoration(
-              color: kOrange.withOpacity(0.7),
+              color: kUsrMsgBg,
               borderRadius: BorderRadius.circular(20),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             margin: const EdgeInsets.all(8),
             child: Text(
               text,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(
+                fontSize: 16,
+                color: kWhite,
+              ),
             ),
           ),
         ),

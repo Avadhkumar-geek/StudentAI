@@ -1,19 +1,25 @@
 import 'dart:async';
-import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/models/appdata_model.dart';
 import 'package:student_ai/screen/chat_screen.dart';
 import 'package:student_ai/screen/my_form.dart';
+import 'package:student_ai/screen/search_screen.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/api_input.dart';
+import 'package:student_ai/widgets/apikey_button.dart';
+import 'package:student_ai/widgets/app_title.dart';
 import 'package:student_ai/widgets/card_widget.dart';
-import 'package:student_ai/widgets/info_card.dart';
+import 'package:student_ai/widgets/dummy_cards.dart';
+import 'package:student_ai/widgets/made_with.dart';
+import 'package:student_ai/widgets/more_button.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/server_indicator.dart';
-
-import '../data/constants.dart';
-import '../data/form_json.dart';
+import 'package:student_ai/widgets/support_us.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -24,15 +30,36 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Timer? timer;
   bool isServerUp = false;
   final TextEditingController chatController = TextEditingController();
+  late AnimationController _aniController;
+  List<AppData> appData = [];
+
+  // late VideoPlayerController _controller;
+
+  void loadApps() async {
+    try {
+      var data = await ApiService.getApps(limit: 5);
+      setState(() {
+        appData = data;
+      });
+      if (kDebugMode) {
+        print(appData);
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print("Home error: $err");
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
+    loadApps();
     ApiService.serverStatus().then((status) {
       setState(() {
         isServerUp = status;
@@ -41,98 +68,52 @@ class _HomeState extends State<Home> {
 
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       ApiService.serverStatus().then((status) {
-        setState(() {
-          isServerUp = status;
-        });
+        if (status != isServerUp) {
+          setState(() {
+            isServerUp = status;
+          });
+        }
       });
     });
+
+    _aniController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
     super.dispose();
+    _aniController.dispose();
+    // _controller.dispose();
     timer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.blue, kBackGroundColor, kOrange],
-        ),
-      ),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: kBackGroundColor,
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          foregroundColor: kBlack,
-          centerTitle: true,
-          title: Row(
-            children: [
-              GestureDetector(
-                onTap: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaY: 5,
-                            sigmaX: 5,
-                          ),
-                          child: const InfoCard());
-                    }),
-                child: SvgPicture.asset(
-                  'assets/logo.svg',
-                  width: 35,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text(
-                "StudentAI",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 25,
-                ),
-              ),
-            ],
+        foregroundColor: kWhite,
+        centerTitle: true,
+        title: const AppTitle(),
+        actions: [
+          ServerIndicator(isServerUp: isServerUp),
+          KeyButton(isServerUp: isServerUp),
+        ],
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/bg.png'),
+            fit: BoxFit.cover,
           ),
-          actions: [
-            ServerIndicator(isServerUp: isServerUp),
-            IconButton(
-              onPressed: () async {
-                if (!isServerUp) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.grey,
-                      content: Text(
-                        "Server is Down 🔻. Try again later!",
-                        style: TextStyle(
-                          color: kBlack,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const ApiInput();
-                    },
-                  );
-                }
-              },
-              icon: const Icon(Icons.key),
-            ),
-          ],
         ),
-        body: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
@@ -143,88 +124,126 @@ class _HomeState extends State<Home> {
               child: Text(
                 "What's New to Learn",
                 style: TextStyle(
-                  fontSize: 25,
+                  color: kWhite,
+                  fontSize: 30,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             MySearchBar(
-              buttonColor: kBlack,
+              hintText: 'Ask Anything...',
               chatController: chatController,
-              onTap: () {
-                if (chatController.text.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(
-                        queryController: chatController.text,
-                        isFormRoute: false,
+              onChanged: () {},
+              onComplete: () {},
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    HapticFeedback.heavyImpact();
+                    _aniController.forward().then((value) => _aniController.reset());
+                    if (openai && isAPIValidated == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Enter a valid API Key'),
+                          backgroundColor: kRed,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    } else if (chatController.text.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                            queryController: chatController.text,
+                            isFormRoute: false,
+                          ),
+                        ),
+                      ).then((value) => chatController.clear());
+                    }
+
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(23),
+                      color: kBlack,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: RotationTransition(
+                        turns: Tween(begin: 0.0, end: 1.5).animate(_aniController),
+                        child: SvgPicture.asset(
+                          'assets/openai.svg',
+                          width: 30,
+                        ),
                       ),
                     ),
-                  ).then((value) => chatController.clear());
-                }
-              },
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
               height: 16,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                "Apps for You",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
             ),
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: cardAspectRatio,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: formJSON.length,
-                      itemBuilder: (context, index) {
-                        final data = formJSON[index];
-                        return CardWidget(
-                          id: data['id'],
-                          data: data,
-                          pageRoute:
-                              MyForm(id: data['id'], title: data['title']),
-                        );
-                      },
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 100, bottom: 50),
-                      child: Text.rich(
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
-                        TextSpan(
-                          text: 'Made with ',
-                          children: [
-                            WidgetSpan(
-                              child: Image.asset(
-                                'assets/heart.png',
-                                height: 20,
-                                width: 20,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Apps for You",
+                            style: TextStyle(
+                              color: kWhite,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
                             ),
-                            const TextSpan(text: ' by ∆ꪜꪖᦔꫝ in 🇮🇳'),
-                          ],
-                        ),
+                          ),
+                          InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SearchScreen(),
+                                  )),
+                              child: const MoreButton())
+                        ],
                       ),
-                    )
+                    ),
+                    appData.isEmpty
+                        ? const DummyCards()
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: cardAspectRatio,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: appData.length,
+                            itemBuilder: (context, index) {
+                              final data = appData[index];
+                              return CardWidget(
+                                id: data.id,
+                                data: data,
+                                pageRoute: MyForm(id: data.id, title: data.title),
+                                // MyForm(id: data.id, title: data.title),
+                              );
+                            },
+                          ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const SupportUs(),
+                    const MadeWith(),
                   ],
                 ),
               ),
