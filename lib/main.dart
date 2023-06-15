@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             title: 'Improvement',
           ),
           Label(
-            id: label13,
+            id: label3,
             title: 'Feature Request',
           ),
         ],
