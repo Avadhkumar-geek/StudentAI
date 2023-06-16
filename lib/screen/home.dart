@@ -18,7 +18,7 @@ import 'package:student_ai/widgets/dummy_cards.dart';
 import 'package:student_ai/widgets/made_with.dart';
 import 'package:student_ai/widgets/more_button.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
-import 'package:student_ai/widgets/server_indicator.dart';
+import 'package:student_ai/widgets/online_status.dart';
 import 'package:student_ai/widgets/support_us.dart';
 
 class Home extends StatefulWidget {
@@ -32,12 +32,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Timer? timer;
-  bool isServerUp = false;
   final TextEditingController chatController = TextEditingController();
   late AnimationController _aniController;
   List<AppData> appData = [];
-
-  // late VideoPlayerController _controller;
+  bool isOnline = false;
 
   void loadApps() async {
     try {
@@ -62,15 +60,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     loadApps();
     ApiService.serverStatus().then((status) {
       setState(() {
-        isServerUp = status;
+        isOnline = status;
       });
     });
 
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       ApiService.serverStatus().then((status) {
-        if (status != isServerUp) {
+        if (status != isOnline) {
           setState(() {
-            isServerUp = status;
+            isOnline = status;
           });
         }
       });
@@ -86,7 +84,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _aniController.dispose();
-    // _controller.dispose();
     timer?.cancel();
   }
 
@@ -99,11 +96,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         foregroundColor: kWhite,
-        centerTitle: true,
+        // centerTitle: true,
         title: const AppTitle(),
         actions: [
-          ServerIndicator(isServerUp: isServerUp),
-          KeyButton(isServerUp: isServerUp),
+          OnlineStatus(
+            isOnline: isOnline,
+          ),
+          const KeyButton(),
         ],
       ),
       body: Container(
@@ -145,8 +144,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     if (openai && isAPIValidated == false) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
+                          behavior: SnackBarBehavior.floating,
                           content: Text('Enter a valid API Key'),
                           backgroundColor: kRed,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    } else if (!isOnline) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text('Server is Down 🔻. Please, try again later!!'),
+                          backgroundColor: kGrey,
                           duration: Duration(seconds: 1),
                         ),
                       );

@@ -11,6 +11,7 @@ class AppTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
           onTap: () => showDialog(
@@ -20,7 +21,7 @@ class AppTitle extends StatelessWidget {
               }),
           child: SvgPicture.asset(
             'assets/logo.svg',
-            width: 50,
+            height: 35,
           ),
         ),
         const SizedBox(

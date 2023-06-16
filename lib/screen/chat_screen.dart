@@ -7,6 +7,7 @@ import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/data/secrets.dart';
 import 'package:student_ai/models/message_model.dart';
 import 'package:student_ai/services/api_service.dart';
+import 'package:student_ai/widgets/indicator.dart';
 import 'package:student_ai/widgets/message.dart';
 import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/typing_animation.dart';
@@ -49,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
 
   Future<void> fetchData(String qry) async {
     try {
-      final String key = openai ? apiKey! : devApiKey;
+      final String key = openai ? apiKey! : devApiKey!;
       String fetchRes = await ApiService.fetchApi(key, qry);
 
       setState(() {
@@ -90,9 +91,17 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Chat',
-              style: TextStyle(fontWeight: FontWeight.w600),
+            const Row(
+              children: [
+                Text(
+                  'ChatBot',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Indicator(status: true)
+              ],
             ),
             _isTyping ? const TypingAnimation() : Container(),
           ],

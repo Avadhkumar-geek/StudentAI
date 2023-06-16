@@ -58,99 +58,108 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: kWhite,
         title: const AppTitle(),
+        centerTitle: true,
       ),
-      body: Column(
-        children: [
-          MySearchBar(
-            onComplete: () {
-              loadApps();
-            },
-            onChanged: () {
-              setState(() {
-                isTyping = searchController.text.isNotEmpty;
-              });
-            },
-            hintText: 'Search here',
-            chatController: searchController,
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(23),
-                  color: kBlack,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: isTyping
-                      ? InkWell(
-                          onTap: () {
-                            HapticFeedback.heavyImpact();
-                            setState(() {
-                              searchController.clear();
-                              isTyping = false;
-                            });
-                          },
-                          child: const Icon(
-                            Icons.cancel,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/bg.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          children: [
+            MySearchBar(
+              onComplete: () {
+                loadApps();
+              },
+              onChanged: () {
+                setState(() {
+                  isTyping = searchController.text.isNotEmpty;
+                });
+              },
+              hintText: 'Search here',
+              chatController: searchController,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(23),
+                    color: kBlack,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: isTyping
+                        ? InkWell(
+                            onTap: () {
+                              HapticFeedback.heavyImpact();
+                              setState(() {
+                                searchController.clear();
+                                isTyping = false;
+                              });
+                            },
+                            child: const Icon(
+                              Icons.cancel,
+                              size: 30,
+                              color: kWhite,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.search,
                             size: 30,
                             color: kWhite,
                           ),
-                        )
-                      : const Icon(
-                          Icons.search,
-                          size: 30,
-                          color: kWhite,
-                        ),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          isLoading
-              ? const DummyCards()
-              : appData.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "No Data Available",
-                        style: TextStyle(color: kWhite, fontSize: 20),
-                      ),
-                    )
-                  : Expanded(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: cardAspectRatio,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
+            const SizedBox(
+              height: 16,
+            ),
+            isLoading
+                ? const DummyCards()
+                : appData.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No Data Available",
+                          style: TextStyle(color: kWhite, fontSize: 20),
+                        ),
+                      )
+                    : Expanded(
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: cardAspectRatio,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                itemCount: appData.length,
+                                itemBuilder: (context, index) {
+                                  final data = appData[index];
+                                  return CardWidget(
+                                    id: data.id,
+                                    data: data,
+                                    pageRoute: MyForm(id: data.id, title: data.title),
+                                  );
+                                },
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              itemCount: appData.length,
-                              itemBuilder: (context, index) {
-                                final data = appData[index];
-                                return CardWidget(
-                                  id: data.id,
-                                  data: data,
-                                  pageRoute: MyForm(id: data.id, title: data.title),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-        ],
+          ],
+        ),
       ),
     );
   }

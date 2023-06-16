@@ -68,7 +68,7 @@ class _MySearchBarState extends State<MySearchBar> {
           controller: widget.chatController,
           textInputAction: TextInputAction.search,
           onEditingComplete: () {
-            widget.onComplete!();
+            widget.onComplete();
             FocusScope.of(context).unfocus();
           },
           onChanged: (val) {

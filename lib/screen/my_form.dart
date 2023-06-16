@@ -63,7 +63,6 @@ class _MyFormState extends State<MyForm> {
       if (openai && isAPIValidated == false) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            elevation: 3,
             behavior: SnackBarBehavior.floating,
             content: Text('Enter a valid API Key'),
             backgroundColor: kRed,

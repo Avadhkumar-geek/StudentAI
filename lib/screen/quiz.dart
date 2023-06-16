@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
+import 'package:student_ai/data/secrets.dart';
 import 'package:student_ai/models/quiz_model.dart';
 import 'package:student_ai/screen/quiz_result.dart';
 import 'package:student_ai/services/api_service.dart';
@@ -29,7 +30,8 @@ class _QuizState extends State<Quiz> {
 
   Future<void> fetchData(String qry) async {
     try {
-      String fetchRes = await ApiService.fetchApi(apiKey!, qry);
+      final String key = openai ? apiKey! : devApiKey!;
+      String fetchRes = await ApiService.fetchApi(key, qry);
 
       setState(() {
         _isTyping = false;
@@ -87,6 +89,7 @@ class _QuizState extends State<Quiz> {
       ),
       child: FrostedGlass(
         widget: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: kBlack.withOpacity(0.6),
           appBar: AppBar(
             backgroundColor: kTransparent,
@@ -94,23 +97,21 @@ class _QuizState extends State<Quiz> {
             title: const Text('MCQ Quiz'),
           ),
           body: _isTyping
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Generating Quiz...',
-                        style: TextStyle(color: kWhite, fontSize: 25),
+              ? const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Generating Quiz...',
+                      style: TextStyle(color: kWhite, fontSize: 25),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 3,
+                        color: kAiMsgBg,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80.0),
-                        child: LinearProgressIndicator(
-                          minHeight: 3,
-                          color: kAiMsgBg,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : SingleChildScrollView(
                   child: Padding(
