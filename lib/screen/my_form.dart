@@ -112,7 +112,7 @@ class _MyFormState extends State<MyForm> {
                                 child: Text(
                                   field.value['title'],
                                   style: const TextStyle(
-                                    color: Colors.white,
+                                    color: kWhite,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),

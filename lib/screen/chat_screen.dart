@@ -192,7 +192,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(23),
-                    color: _isTyping ? kDarkWhite : kBlack,
+                    color: _isTyping ? kGrey : kBlack,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),

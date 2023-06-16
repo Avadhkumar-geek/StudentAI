@@ -61,7 +61,7 @@ class CardWidget extends StatelessWidget {
                       data.title,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.05,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(
@@ -71,8 +71,7 @@ class CardWidget extends StatelessWidget {
                       data.disc,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.04,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w500,
+                        color: kBlack.withOpacity(0.54),
                       ),
                     ),
                   ],

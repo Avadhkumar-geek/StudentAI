@@ -54,7 +54,7 @@ class MyTextField extends StatelessWidget {
         ),
         errorStyle: const TextStyle(color: kRed),
         filled: true,
-        fillColor: kWhite70,
+        fillColor: kWhite.withOpacity(0.7),
       ),
       validator: (value) {
         if (value!.isEmpty) {
