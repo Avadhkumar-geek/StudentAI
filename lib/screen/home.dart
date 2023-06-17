@@ -244,7 +244,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 id: data.id,
                                 data: data,
                                 pageRoute: MyForm(id: data.id, title: data.title),
-                                // MyForm(id: data.id, title: data.title),
                               );
                             },
                           ),

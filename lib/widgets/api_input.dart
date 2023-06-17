@@ -41,8 +41,8 @@ class _ApiInputState extends State<ApiInput> {
             children: <Widget>[
               const Flexible(
                 child: Text(
-                  'Default API: ChimeraGPT (Free)\n\n'
-                  'Enter your OpenAI API key for better response:',
+                  'Default: Free API\n'
+                  'To enhance the quality of your responses, kindly provide your OpenAI API key.',
                   style: TextStyle(color: kWhite),
                 ),
               ),

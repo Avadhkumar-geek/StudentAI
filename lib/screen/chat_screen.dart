@@ -13,7 +13,7 @@ import 'package:student_ai/widgets/my_search_bar.dart';
 import 'package:student_ai/widgets/typing_animation.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String queryController;
+  final String? queryController;
   bool isFormRoute;
 
   ChatScreen({Key? key, required this.queryController, required this.isFormRoute})
@@ -67,7 +67,9 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    sendMessage(widget.queryController);
+    if (widget.queryController!.isNotEmpty) {
+      sendMessage(widget.queryController!);
+    }
     _aniController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
