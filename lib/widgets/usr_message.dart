@@ -13,38 +13,25 @@ class UsrMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Flexible(
-          child: Container(
-            decoration: BoxDecoration(
-              color: kUsrMsgBg,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            margin: const EdgeInsets.all(8),
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-                color: kWhite,
-              ),
+    return Align(
+      alignment: Alignment.centerRight,
+      child: UnconstrainedBox(
+        child: Container(
+          decoration: BoxDecoration(
+            color: kUsrMsgBg,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          margin: const EdgeInsets.all(8),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+              color: kWhite,
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 6),
-          child: CircleAvatar(
-            backgroundColor: kWhite.withOpacity(0.3),
-            child: const Icon(
-              Icons.school_outlined,
-              size: 30,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
