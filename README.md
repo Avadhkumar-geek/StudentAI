@@ -59,6 +59,11 @@ Here are some examples of how you can use StudentAI:
 -   Get StudentAI to generate MCQs, compare topics, create study plans, etc.
 -   Have StudentAI help you with your research.
 -   Get StudentAI to provide you with summaries of complex topics.
+   
+### Screenshots
+![Screenshot_2023-06-27-11-06-18-620_com student ai](https://github.com/Avadhkumar-geek/StudentAI/assets/1390862/d52165a9-8072-4f4f-8c3a-f10ef7bcb6bf) 
+![Screenshot_2023-06-27-11-07-21-077_com student ai](https://github.com/Avadhkumar-geek/StudentAI/assets/1390862/5d17dfb3-f333-4aeb-b0b3-48d025cde5fe)
+
 
 ### Contributing
 
