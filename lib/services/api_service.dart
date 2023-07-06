@@ -86,9 +86,35 @@ class ApiService {
 
   static Future<bool> serverStatus() async {
     try {
-      const String url = 'https://chimeragpt.adventblocks.cc/';
+//       const String url =
+//           'https://chimeragpt.adventblocks.cc/v1/chat/completions';
 
-      final res = await http.get(Uri.parse(url));
+      const String url = 'https://api.hypere.app/v1/chat/completions';
+
+      final Map<String, String> headers = {
+        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
+        'authorization': "Bearer apiKey",
+        'Content-Type': 'application/json'
+      };
+
+      final Map<String, dynamic> data = {
+        'model': 'gpt-3.5-turbo',
+        'messages': [
+          {
+            'role': 'user',
+            'content': '2+2=',
+          }
+        ],
+      };
+
+      final res = await http.post(Uri.parse(url), headers: headers, body: json.encode(data));
+
+      if (kDebugMode) {
+        print('Status Code: ${res.statusCode}');
+      }
+      if (kDebugMode) {
+        print(res.body);
+      }
 
       if (kDebugMode) {
         print('Status Code: ${res.statusCode}');

@@ -49,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
 
   Future<void> fetchData(String qry) async {
     try {
-      final String key = openai ? apiKey! : devApiKey;
+      final String key = openai ? apiKey! : devApiKey!;
       String fetchRes = await ApiService.fetchApi(key, qry);
 
       setState(() {
