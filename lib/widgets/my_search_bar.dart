@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
-import 'package:student_ai/widgets/frosted_glass.dart';
 
-class MySearchBar extends StatefulWidget {
+class MySearchBar extends StatelessWidget {
   const MySearchBar(
       {Key? key,
       required this.chatController,
@@ -20,61 +20,43 @@ class MySearchBar extends StatefulWidget {
   static const double borderWidth = 3.0;
 
   @override
-  State<MySearchBar> createState() => _MySearchBarState();
-}
-
-class _MySearchBarState extends State<MySearchBar> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: FrostedGlass(
-        widget: TextField(
-          cursorColor: kRadiumGreen,
-          maxLines: 4,
-          minLines: 1,
-          style: const TextStyle(
-            fontSize: 18,
-            color: kWhite,
-            fontWeight: FontWeight.w500,
+      child: TextField(
+        cursorColor: kPrimaryColor,
+        maxLines: 4,
+        minLines: 1,
+        style: TextStyle(
+            color: colors.kTextColor,
+            fontSize: 20,
+            decorationThickness: double.nan,
+            fontWeight: FontWeight.w500),
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50), borderSide: BorderSide.none),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
           ),
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(width: 3, color: kRadiumGreen),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(width: 3, color: kRadiumGreen),
-            ),
-            hintText: widget.hintText,
-            hintStyle: const TextStyle(color: kWhite),
-            filled: true,
-            fillColor: kBlack.withOpacity(0.5),
-            suffixIcon: widget.suffixIcon,
-          ),
-          controller: widget.chatController,
-          textInputAction: TextInputAction.search,
-          onEditingComplete: () {
-            widget.onComplete();
-            FocusScope.of(context).unfocus();
-          },
-          onChanged: (val) {
-            widget.onChanged();
-          },
+          hintText: hintText,
+          hintStyle: TextStyle(color: colors.kTextColor),
+          filled: true,
+          fillColor: colors.kSecondaryColor,
+          suffixIcon: suffixIcon,
         ),
+        controller: chatController,
+        textInputAction: TextInputAction.search,
+        onEditingComplete: () {
+          onComplete();
+          FocusScope.of(context).unfocus();
+        },
+        onChanged: (val) {
+          onChanged();
+        },
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
-import 'package:student_ai/widgets/frosted_glass.dart';
+import 'package:student_ai/screen/search_screen.dart';
 
 class MoreButton extends StatelessWidget {
   const MoreButton({
@@ -9,24 +10,60 @@ class MoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FrostedGlass(
-      widget: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    final colors = Theme.of(context).extension<AppColors>()!;
+
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SearchScreen(),
+          )),
+      child: Container(
         decoration: BoxDecoration(
-          color: kWhite.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(30),
         ),
-        child: const Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'More',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Container(
+              decoration: BoxDecoration(
+                color: colors.kSecondaryColor,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              margin: const EdgeInsets.all(16),
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.window_rounded,
+                  size: 30,
+                  color: kPrimaryColor,
+                ),
+              ),
             ),
-            SizedBox(
-              width: 4,
-            ),
-            Icon(
-              Icons.window_rounded,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'More',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  const Icon(
+                    Icons.arrow_forward,
+                    size: 35,
+                  )
+                ],
+              ),
             ),
           ],
         ),

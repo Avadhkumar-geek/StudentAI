@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/data/secrets.dart';
@@ -23,9 +24,8 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateMixin {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   List<MessageModel> msgList = [];
-
   late AnimationController _aniController;
   final TextEditingController newQueryController = TextEditingController();
   bool _isTyping = false;
@@ -39,6 +39,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
     if (widget.isFormRoute == false) {
       setState(() {
         msgList.insert(0, MessageModel(text: query, sender: 'user'));
+        msgListGlobal.insert(0, MessageModel(text: query, sender: 'user'));
       });
     }
     setState(() {
@@ -56,6 +57,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       setState(() {
         _isTyping = false;
         msgList.insert(0, MessageModel(text: fetchRes, sender: 'AI'));
+        msgListGlobal.insert(0, MessageModel(text: fetchRes, sender: 'AI'));
       });
     } catch (e) {
       if (kDebugMode) {
@@ -67,6 +69,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+    msgList.addAll(msgListGlobal);
     if (widget.queryController!.isNotEmpty) {
       sendMessage(widget.queryController!);
     }
@@ -84,12 +87,14 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+
     return Scaffold(
-      backgroundColor: kChatBackGround,
+      backgroundColor: colors.kTertiaryColor,
       appBar: AppBar(
-        foregroundColor: kWhite,
         backgroundColor: Colors.transparent,
+        foregroundColor: colors.kTextColor,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -114,26 +119,27 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             onPressed: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                backgroundColor: kBlack,
-                title: const Text(
+                backgroundColor: colors.kSecondaryColor,
+                title: Text(
                   'Clear this chat?',
-                  style: TextStyle(color: kWhite),
+                  style: TextStyle(color: colors.kTextColor),
                 ),
-                content: const Text(
+                content: Text(
                   'This action can not be undone',
-                  style: TextStyle(color: kWhite),
+                  style: TextStyle(color: colors.kTextColor),
                 ),
                 actions: [
                   TextButton(
                     onPressed: () {
                       setState(() {
                         msgList.clear();
+                        msgListGlobal.clear();
                       });
                       Navigator.pop(context);
                     },
                     child: const Text(
                       'Clear',
-                      style: TextStyle(fontSize: 18, color: Colors.red),
+                      style: TextStyle(fontSize: 18, color: kGrey),
                     ),
                   ),
                   TextButton(
@@ -144,7 +150,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       'Cancel',
                       style: TextStyle(
                         fontSize: 18,
-                        color: kRadiumGreen,
+                        color: kPrimaryColor,
                       ),
                     ),
                   ),
@@ -193,8 +199,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(23),
-                    color: _isTyping ? kGrey : kBlack,
+                    borderRadius: BorderRadius.circular(30),
+                    color: _isTyping ? kGrey : colors.kTextColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
@@ -202,7 +208,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       turns: Tween(begin: 0.0, end: 1.5).animate(_aniController),
                       child: SvgPicture.asset(
                         'assets/openai.svg',
-                        width: 30,
+                        width: 40,
+                        colorFilter: ColorFilter.mode(colors.kTertiaryColor!, BlendMode.srcIn),
                       ),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/models/quiz_model.dart';
 
@@ -25,12 +26,18 @@ class _MCQState extends State<MCQ> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.mcq.question,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: kWhite),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: colors.kTextColor,
+          ),
         ),
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -40,12 +47,12 @@ class _MCQState extends State<MCQ> {
             final option = widget.mcq.options[index];
             bool isSelected = _selectedOption == option;
             return RadioListTile<String>(
-              activeColor: kRadiumGreen,
+              activeColor: kPrimaryColor,
               contentPadding: EdgeInsets.zero,
               dense: true,
               title: Text(
                 option,
-                style: const TextStyle(fontSize: 18, color: kWhite),
+                style: TextStyle(fontSize: 18, color: colors.kTextColor),
               ),
               subtitle: isSelected && widget.isSubmitted && widget.mcq.answer != _selectedOption
                   ? const Text(

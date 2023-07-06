@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 
 class QuizResult extends StatelessWidget {
@@ -9,8 +10,10 @@ class QuizResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Scaffold(
-      backgroundColor: kBlack,
+      backgroundColor: colors.kTertiaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:student_ai/widgets/frosted_glass.dart';
-import 'package:student_ai/widgets/info_card.dart';
+import 'package:student_ai/data/constants.dart';
 
 class AppTitle extends StatelessWidget {
+  final bool isDarkMode;
   const AppTitle({
     super.key,
+    required this.isDarkMode,
   });
 
   @override
@@ -13,16 +14,15 @@ class AppTitle extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const FrostedGlass(widget: InfoCard());
-              }),
-          child: SvgPicture.asset(
-            'assets/logo.svg',
-            height: 35,
-          ),
+        SvgPicture.asset(
+          'assets/logo.svg',
+          height: 40,
+          colorFilter: isDarkMode
+              ? const ColorFilter.mode(
+                  kPrimaryColor,
+                  BlendMode.srcIn,
+                )
+              : null,
         ),
         const SizedBox(
           width: 10,

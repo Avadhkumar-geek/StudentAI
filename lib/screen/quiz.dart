@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/data/secrets.dart';
 import 'package:student_ai/models/quiz_model.dart';
 import 'package:student_ai/screen/quiz_result.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/frosted_glass.dart';
 import 'package:student_ai/widgets/question_list_builder.dart';
 
 class Quiz extends StatefulWidget {
@@ -80,74 +80,70 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/bg.png'),
-          fit: BoxFit.cover,
-        ),
+    final colors = Theme.of(context).extension<AppColors>()!;
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colors.kTertiaryColor,
+      appBar: AppBar(
+        backgroundColor: kTransparent,
+        foregroundColor: colors.kTextColor,
+        title: const Text('MCQ Quiz'),
       ),
-      child: FrostedGlass(
-        widget: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: kBlack.withOpacity(0.6),
-          appBar: AppBar(
-            backgroundColor: kTransparent,
-            foregroundColor: kWhite,
-            title: const Text('MCQ Quiz'),
-          ),
-          body: _isTyping
-              ? const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Generating Quiz...',
-                      style: TextStyle(color: kWhite, fontSize: 25),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80.0),
-                      child: LinearProgressIndicator(
-                        minHeight: 3,
-                        color: kAiMsgBg,
-                      ),
-                    ),
-                  ],
-                )
-              : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        QuestionListBuilder(
-                            questionJSON: questionJSON,
-                            selectedOptions: selectedOptions,
-                            isSubmitted: _isSubmitted),
-                        MaterialButton(
-                          onPressed: _submitQuiz,
-                          color: kAiMsgBg,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                      ],
-                    ),
+      body: _isTyping
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Generating Quiz...',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: colors.kTextColor,
                   ),
                 ),
-        ),
-      ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 80.0),
+                  child: LinearProgressIndicator(
+                    minHeight: 3,
+                    color: kPrimaryColor,
+                  ),
+                ),
+              ],
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    QuestionListBuilder(
+                        questionJSON: questionJSON,
+                        selectedOptions: selectedOptions,
+                        isSubmitted: _isSubmitted),
+                    MaterialButton(
+                      onPressed: _submitQuiz,
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            color: colors.kSecondaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

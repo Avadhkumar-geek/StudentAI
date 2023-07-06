@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/widgets/support_card.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RateCard extends StatefulWidget {
   const RateCard({super.key});
@@ -15,20 +16,19 @@ class _RateCardState extends State<RateCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return GestureDetector(
       onTap: () {
         {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              backgroundColor: kBlack,
-              title: const Text(
+              backgroundColor: colors.kTertiaryColor,
+              title: Text(
                 "Rate Us",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.0,
-                  color: kWhite
-                ),
+                    fontWeight: FontWeight.bold, fontSize: 22.0, color: colors.kTextColor),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -43,7 +43,7 @@ class _RateCardState extends State<RateCard> {
                     itemSize: 40.0,
                     itemBuilder: (context, _) => const Icon(
                       Icons.star,
-                      color: Colors.amber,
+                      color: kPrimaryColor,
                     ),
                     onRatingUpdate: (rating) {
                       setState(() {
@@ -70,21 +70,26 @@ class _RateCardState extends State<RateCard> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    color: kRadiumGreen,
+                    color: kPrimaryColor,
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
                           content: Text(
-                            "Thank you for giving us $_rating ⭐"
+                            "Thank you for giving us $_rating ⭐",
+                            style: TextStyle(
+                              color: colors.kTextColor,
+                            ),
                           ),
-                      ),);
+                        ),
+                      );
                       Navigator.pop(context);
                     },
-                    child: const Text(
+                    child: Text(
                       "Submit",
                       style: TextStyle(
                         fontSize: 18.0,
+                        color: colors.kTextColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/services/api_service.dart';
-import 'package:student_ai/widgets/frosted_glass.dart';
 
-class ApiInput extends StatefulWidget {
-  const ApiInput({Key? key}) : super(key: key);
+class ApiConfig extends StatefulWidget {
+  const ApiConfig({super.key});
 
   @override
-  State<ApiInput> createState() => _ApiInputState();
+  State<ApiConfig> createState() => _ApiConfigState();
 }
 
-class _ApiInputState extends State<ApiInput> {
+class _ApiConfigState extends State<ApiConfig> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController apiController = TextEditingController(text: apiKey);
   bool _isLoading = false;
@@ -26,24 +26,38 @@ class _ApiInputState extends State<ApiInput> {
 
   @override
   Widget build(BuildContext context) {
-    return FrostedGlass(
-      widget: AlertDialog(
-        title: const Text(
-          'API Configuration',
-          style: TextStyle(color: kWhite),
+    final colors = Theme.of(context).extension<AppColors>()!;
+
+    return Scaffold(
+      backgroundColor: colors.kTertiaryColor,
+      appBar: AppBar(
+        backgroundColor: colors.kTertiaryColor,
+        foregroundColor: colors.kTextColor,
+        title: Text(
+          "API Configuration",
+          style: TextStyle(color: colors.kTextColor),
         ),
-        alignment: Alignment.center,
-        backgroundColor: Colors.black54,
-        content: Form(
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: colors.kSecondaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Form(
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Flexible(
+              Flexible(
                 child: Text(
                   'Default: Free API\n'
                   'To enhance the quality of your responses, kindly provide your OpenAI API key.',
-                  style: TextStyle(color: kWhite),
+                  style: TextStyle(
+                    color: colors.kTextColor,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               Padding(
@@ -70,67 +84,75 @@ class _ApiInputState extends State<ApiInput> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 300,
-                child: TextFormField(
-                  enabled: openai,
-                  cursorColor: kRadiumGreen,
-                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                  style: const TextStyle(
+              TextFormField(
+                enabled: openai,
+                cursorColor: kPrimaryColor,
+                onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+                controller: apiController,
+                textAlignVertical: TextAlignVertical.center,
+                decoration: InputDecoration(
+                  labelText: 'Your OpenAI API Key',
+                  labelStyle: TextStyle(
+                      fontWeight: FontWeight.w600, color: colors.kTextColor!.withOpacity(0.5)),
+                  prefixIcon: Icon(
+                    Icons.key,
+                    color: colors.kTextColor!.withOpacity(0.5),
+                  ),
+                  hintStyle: const TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
-                  controller: apiController,
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    labelText: 'Your OpenAI API Key',
-                    labelStyle: const TextStyle(fontWeight: FontWeight.w600, color: kWhite),
-                    prefixIcon: const Icon(
-                      Icons.key,
-                      color: kWhite,
+                  focusColor: kWhite,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                      width: 2,
                     ),
-                    hintStyle: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                    focusColor: kWhite,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(width: 2, color: kRadiumGreen),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(width: 2, color: kRadiumGreen),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(
-                        color: kRed,
-                        width: 2,
-                      ),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(
-                        color: kGrey,
-                        width: 2,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: kRadiumGreen.withOpacity(0.5),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter a key';
-                    } else {
-                      return null;
-                    }
-                  },
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(width: 2, color: kPrimaryColor),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(
+                      color: kRed,
+                      width: 2,
+                    ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(
+                      color: kGrey,
+                      width: 2,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                      color: kRed.shade900,
+                      width: 2,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: kPrimaryColor.withOpacity(0.3),
                 ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter a key';
+                  } else {
+                    return null;
+                  }
+                },
               ),
               const SizedBox(
                 height: 16,
               ),
               MaterialButton(
-                color: kRadiumGreen,
+                color: kPrimaryColor,
                 disabledColor: kGrey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -154,6 +176,9 @@ class _ApiInputState extends State<ApiInput> {
                                   backgroundColor: kRed,
                                 ),
                               );
+                              setState(() {
+                                _isLoading = false;
+                              });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -172,14 +197,14 @@ class _ApiInputState extends State<ApiInput> {
                               });
                               addAPIKeyToStorage();
                             }
-                          }).then((value) => Navigator.pop(context));
+                          });
                         }
                       },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _isLoading
-                      ? const CircularProgressIndicator(
-                          color: kBlack,
+                      ? CircularProgressIndicator(
+                          color: colors.kTextColor,
                         )
                       : const Icon(
                           Icons.check,

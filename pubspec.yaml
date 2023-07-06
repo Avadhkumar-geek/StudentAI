@@ -48,6 +48,8 @@ dependencies:
   wiredash: ^1.7.0
   shimmer: ^3.0.0
   flutter_rating_bar: ^4.0.1
+  webview_flutter_plus: ^0.3.0+2
+  google_mobile_ads: ^2.4.0
 
 dev_dependencies:
   flutter_test:

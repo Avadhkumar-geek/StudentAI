@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/screen/chat_screen.dart';
+import 'package:student_ai/screen/mind_map.dart';
 import 'package:student_ai/screen/quiz.dart';
 import 'package:student_ai/services/api_service.dart';
 import 'package:student_ai/widgets/dummy_form.dart';
@@ -69,23 +71,26 @@ class _MyFormState extends State<MyForm> {
           ),
         );
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => widget.id == 'mcq-type-quiz'
-                ? Quiz(queryController: submittedData.toString())
-                : ChatScreen(
-                    queryController: submittedData.toString(),
-                    isFormRoute: true,
-                  ),
-          ),
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+          if (widget.id == 'mcq-type-quiz') {
+            return Quiz(queryController: submittedData.toString());
+          } else if (widget.id == 'mindmap-generator') {
+            return MindMap(data: submittedData.toString());
+          } else {
+            return ChatScreen(
+              queryController: submittedData.toString(),
+              isFormRoute: true,
+            );
+          }
+        }));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return formFields.isEmpty
         ? DummyForm(title: widget.title)
         : Scaffold(
@@ -97,8 +102,8 @@ class _MyFormState extends State<MyForm> {
                   children: [
                     Text(
                       widget.title,
-                      style:
-                          const TextStyle(color: kWhite, fontSize: 25, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: colors.kTextColor, fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     for (var field in formFields.entries)
                       Padding(
@@ -111,8 +116,8 @@ class _MyFormState extends State<MyForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   field.value['title'],
-                                  style: const TextStyle(
-                                    color: kWhite,
+                                  style: TextStyle(
+                                    color: colors.kTextColor,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -131,15 +136,16 @@ class _MyFormState extends State<MyForm> {
                     ),
                     MaterialButton(
                       onPressed: _submitForm,
-                      color: kAiMsgBg,
+                      color: kPrimaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
                         child: Text(
                           'Submit',
                           style: TextStyle(
+                            color: colors.kSecondaryColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
