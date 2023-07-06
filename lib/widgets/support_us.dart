@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/widgets/feedback_card.dart';
 import 'package:student_ai/widgets/rate_card.dart';
 import 'package:student_ai/widgets/share_card.dart';
@@ -9,18 +9,16 @@ class SupportUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppColors colors(context) => Theme.of(context).extension<AppColors>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(16.0),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Text(
             "Support Us",
             style: TextStyle(
-              color: kWhite,
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-            ),
+                fontSize: 30, fontWeight: FontWeight.w600, color: colors(context).kTextColor),
           ),
         ),
         ListView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
 
 class MyTextField extends StatelessWidget {
@@ -13,10 +14,16 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return TextFormField(
       onEditingComplete: () {
         FocusScope.of(context).nextFocus();
       },
+      style: TextStyle(
+        color: colors.kTextColor,
+        // fontSize: 16,
+      ),
       maxLines: 3,
       minLines: 1,
       keyboardType: typeMap[field.value['type']],
@@ -27,15 +34,12 @@ class MyTextField extends StatelessWidget {
         hintText: field.value['placeholder'],
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(
-            width: 2,
-          ),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
-            color: kAiMsgBg,
-            width: 2,
+            color: kPrimaryColor,
           ),
         ),
         errorBorder: OutlineInputBorder(
@@ -48,13 +52,13 @@ class MyTextField extends StatelessWidget {
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
-            color: kAiMsgBg,
+            color: kPrimaryColor,
             width: 2,
           ),
         ),
         errorStyle: const TextStyle(color: kRed),
         filled: true,
-        fillColor: kWhite70,
+        fillColor: colors.kTertiaryColor,
       ),
       validator: (value) {
         if (value!.isEmpty) {

@@ -13,7 +13,6 @@ class ApiService {
       String url = openai ? openaiUrl : defaultUrl;
 
       final Map<String, String> headers = {
-        // devApiKey is used for development purpose
         'authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json'
       };
@@ -32,7 +31,7 @@ class ApiService {
 
       Map<String, dynamic> resData = jsonDecode(const Utf8Decoder().convert(res.bodyBytes));
 
-      String output = '';
+      String output = "";
       resData['choices'].forEach((choice) {
         String content = choice['message']['content'];
         output += content;
@@ -40,11 +39,12 @@ class ApiService {
 
       if (kDebugMode) {
         print("url: $url");
-        print(resData);
+        // print(resData);
       }
 
       return output;
     } catch (e) {
+      print('API Error: $e');
       return "Something went wrong!! Please, try again later.";
     }
   }
@@ -63,7 +63,7 @@ class ApiService {
         'messages': [
           {
             'role': 'user',
-            'content': '2+2=',
+            'content': "say 'a'",
           }
         ],
       };
@@ -86,28 +86,9 @@ class ApiService {
 
   static Future<bool> serverStatus() async {
     try {
-//       const String url =
-//           'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String url = 'https://chimeragpt.adventblocks.cc';
 
-      const String url = 'https://api.hypere.app/v1/chat/completions';
-
-      final Map<String, String> headers = {
-        // 'authorization': 'Bearer ${dotenv.env['API_KEY']!}',
-        'authorization': "Bearer apiKey",
-        'Content-Type': 'application/json'
-      };
-
-      final Map<String, dynamic> data = {
-        'model': 'gpt-3.5-turbo',
-        'messages': [
-          {
-            'role': 'user',
-            'content': '2+2=',
-          }
-        ],
-      };
-
-      final res = await http.post(Uri.parse(url), headers: headers, body: json.encode(data));
+      final res = await http.get(Uri.parse(url));
 
       if (kDebugMode) {
         print('Status Code: ${res.statusCode}');
@@ -119,6 +100,7 @@ class ApiService {
       if (kDebugMode) {
         print('Status Code: ${res.statusCode}');
       }
+
       // if (kDebugMode) {
       //   print(res.body);
       // }
@@ -169,6 +151,7 @@ class ApiService {
       //   print("Result: ${data['result']}");
       // }
       //
+
       return formData;
     } catch (e) {
       if (kDebugMode) {

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:student_ai/data/app_color.dart';
 import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/globals.dart';
 import 'package:student_ai/models/appdata_model.dart';
 import 'package:student_ai/screen/my_form.dart';
 import 'package:student_ai/services/api_service.dart';
@@ -51,13 +55,28 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return Scaffold(
-      backgroundColor: kBackGroundColor,
+      backgroundColor: colors.kTertiaryColor,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        foregroundColor: kWhite,
-        title: const AppTitle(),
+        backgroundColor: colors.kTertiaryColor,
+        foregroundColor: colors.kTextColor,
+        title: AppTitle(isDarkMode: currentTheme.getTheme),
+        centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              searchController.text = utf8.decode(
+                  base64.decode("VGhpcyBpcyB0aGUgcHJvcGVydHkgb2YgQXZhZGhrdW1hciBLYWNoaGFkaXlh"));
+            },
+            child: Container(
+              width: 5,
+              color: kTransparent,
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -76,8 +95,8 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(23),
-                  color: kBlack,
+                  borderRadius: BorderRadius.circular(30),
+                  color: colors.kTextColor,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -90,16 +109,16 @@ class _SearchScreenState extends State<SearchScreen> {
                               isTyping = false;
                             });
                           },
-                          child: const Icon(
-                            Icons.cancel,
-                            size: 30,
-                            color: kWhite,
+                          child: Icon(
+                            Icons.cancel_outlined,
+                            size: 40,
+                            color: colors.kTertiaryColor,
                           ),
                         )
-                      : const Icon(
+                      : Icon(
                           Icons.search,
-                          size: 30,
-                          color: kWhite,
+                          size: 40,
+                          color: colors.kTertiaryColor,
                         ),
                 ),
               ),
@@ -111,42 +130,51 @@ class _SearchScreenState extends State<SearchScreen> {
           isLoading
               ? const DummyCards()
               : appData.isEmpty
-                  ? const Center(
+                  ? Center(
+                      heightFactor: 10,
                       child: Text(
                         "No Data Available",
-                        style: TextStyle(color: kWhite, fontSize: 20),
-                      ),
-                    )
+                        style: TextStyle(color: colors.kTextColor, fontSize: 20),
+                      ))
                   : Expanded(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: cardAspectRatio,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
+                      child: RefreshIndicator(
+                        edgeOffset: -20,
+                        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                        onRefresh: () async {
+                          loadApps();
+                        },
+                        color: Colors.red,
+                        backgroundColor: Colors.white,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: MediaQuery.of(context).size.width * 0.0021,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                itemCount: appData.length,
+                                itemBuilder: (context, index) {
+                                  final data = appData[index];
+                                  return CardWidget(
+                                    id: data.id,
+                                    data: data,
+                                    pageRoute: MyForm(id: data.id, title: data.title),
+                                  );
+                                },
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              itemCount: appData.length,
-                              itemBuilder: (context, index) {
-                                final data = appData[index];
-                                return CardWidget(
-                                  id: data.id,
-                                  data: data,
-                                  pageRoute: MyForm(id: data.id, title: data.title),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
