@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/app_color.dart';
+import 'package:student_ai/data/constants/app_color.dart';
 import 'package:student_ai/widgets/feedback_card.dart';
 import 'package:student_ai/widgets/rate_card.dart';
 import 'package:student_ai/widgets/share_card.dart';
@@ -18,7 +18,9 @@ class SupportUs extends StatelessWidget {
           child: Text(
             "Support Us",
             style: TextStyle(
-                fontSize: 30, fontWeight: FontWeight.w600, color: colors(context).kTextColor),
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+                color: colors(context).kTextColor),
           ),
         ),
         ListView(

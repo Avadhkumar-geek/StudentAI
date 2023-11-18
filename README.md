@@ -26,7 +26,7 @@ To get started with StudentAI, you will need to:
     // Create account in https://wiredash.io/ to use its Feedback SDK
     const String label1 = 'LABEL-ID';
     const String label2 = 'LABEL-ID';
-    const String label13 = 'LABEL-ID';
+    const String label3 = 'LABEL-ID';
     const String projectId = 'PROJECT-ID';
     const String secretKey = 'SECRET-KEY';
     ```

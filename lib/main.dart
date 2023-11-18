@@ -1,20 +1,42 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:student_ai/data/app_color.dart';
-import 'package:student_ai/data/constants.dart';
-import 'package:student_ai/data/globals.dart';
-import 'package:student_ai/data/secrets.dart';
-import 'package:student_ai/screen/home.dart';
+import 'package:student_ai/data/constants/app_color.dart';
+import 'package:student_ai/data/constants/constants.dart';
+import 'package:student_ai/data/constants/globals.dart';
+import 'package:student_ai/data/constants/secrets.dart';
+import 'package:student_ai/data/repositories/auth_repo.dart';
+import 'package:student_ai/data/repositories/ai_model_repo.dart';
+import 'package:student_ai/data/repositories/studentai_api_repo.dart';
+import 'package:student_ai/data/repositories/user_repo.dart';
+import 'package:student_ai/firebase_options.dart';
+import 'package:student_ai/logic/blocs/apps/apps_bloc.dart';
+import 'package:student_ai/logic/blocs/auth/auth_bloc.dart';
+import 'package:student_ai/logic/blocs/custom_app/custom_app_bloc.dart';
+import 'package:student_ai/logic/blocs/internet/internet_bloc.dart';
+import 'package:student_ai/logic/blocs/api/api_bloc.dart';
+import 'package:student_ai/logic/blocs/updater/updater_cubit.dart';
+import 'package:student_ai/logic/blocs/user/user_bloc.dart';
+import 'package:student_ai/logic/blocs/validator/validator_bloc.dart';
+import 'package:student_ai/presentation/screens/home/home.dart';
+import 'package:student_ai/presentation/screens/login/login.dart';
+import 'package:student_ai/presentation/screens/updater/update_listener.dart';
 import 'package:wiredash/wiredash.dart';
 
+import 'logic/blocs/chat/chat_bloc.dart';
+
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
-  runApp(const MyApp());
-  getAPIKeyFromStorage();
 }
 
 class MyApp extends StatefulWidget {
@@ -59,33 +81,100 @@ class _MyAppState extends State<MyApp> {
       ),
       projectId: projectId,
       secret: secretKey,
-      child: MaterialApp(
-        darkTheme: ThemeData(
-          extensions: const <ThemeExtension<AppColors>>[
-            AppColors(
-              kSecondaryColor: kSecondaryColor2,
-              kTertiaryColor: kTertiaryColor2,
-              kTextColor: kWhite,
+      child: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (context) => AuthRepo(),
+          ),
+          RepositoryProvider(
+            create: (context) => AIModelRepo(),
+          ),
+          RepositoryProvider(
+            create: (context) => StudentAiApiRepo(),
+          ),
+          RepositoryProvider(
+            create: (context) => UserRepo(),
+          ),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => InternetBloc(
+                connectivity: Connectivity(),
+              ),
             ),
-          ],
-          fontFamily: "Ubuntu",
-          useMaterial3: true,
-          textTheme: GoogleFonts.dmSansTextTheme(),
-        ),
-        theme: ThemeData(
-          extensions: const <ThemeExtension<AppColors>>[
-            AppColors(
-              kSecondaryColor: kSecondaryColor,
-              kTertiaryColor: kTertiaryColor,
-              kTextColor: kTextColor,
+            BlocProvider(
+              create: (context) => AuthBloc(
+                authRepo: RepositoryProvider.of<AuthRepo>(context),
+              ),
             ),
+            BlocProvider(
+              create: (context) => APIBloc(
+                aiModelRepo: RepositoryProvider.of<AIModelRepo>(context),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => ValidatorBloc(
+                aiModelRepo: RepositoryProvider.of<AIModelRepo>(context),
+              ),
+            ),
+            BlocProvider<HomeBloc>(
+              create: (context) => AppsBloc(
+                studentAiApiRepo: RepositoryProvider.of<StudentAiApiRepo>(context),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CustomAppsBloc(
+                userRepo: RepositoryProvider.of<UserRepo>(context),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => UserBloc(
+                userRepo: RepositoryProvider.of<UserRepo>(context),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => ChatBloc(),
+            ),
+            BlocProvider(create: (_) => UpdaterCubit()..init()),
           ],
-          fontFamily: "Ubuntu",
-          useMaterial3: true,
-          textTheme: GoogleFonts.dmSansTextTheme(),
+          child: MaterialApp(
+            darkTheme: ThemeData(
+              extensions: const <ThemeExtension<AppColors>>[
+                AppColors(
+                  kSecondaryColor: kSecondaryColorLight,
+                  kTertiaryColor: kTertiaryColorLight,
+                  kTextColor: kWhite,
+                ),
+              ],
+              fontFamily: "Ubuntu",
+              useMaterial3: true,
+              textTheme: GoogleFonts.dmSansTextTheme(),
+            ),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              extensions: const <ThemeExtension<AppColors>>[
+                AppColors(
+                  kSecondaryColor: kSecondaryColor,
+                  kTertiaryColor: kTertiaryColor,
+                  kTextColor: kTextColor,
+                ),
+              ],
+              fontFamily: "Ubuntu",
+              useMaterial3: true,
+              textTheme: GoogleFonts.dmSansTextTheme(),
+            ),
+            themeMode: currentTheme.currentTheme(),
+            home: StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const UpdateListener(child: Home());
+                  }
+                  return const LoginScreen();
+                }),
+          ),
         ),
-        themeMode: currentTheme.currentTheme(),
-        home: const Home(),
       ),
     );
   }

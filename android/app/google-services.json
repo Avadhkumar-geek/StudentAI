@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "627082445497",
+    "project_id": "studentai-2dda3",
+    "storage_bucket": "studentai-2dda3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627082445497:android:b63650c7d1e3b628dc9168",
+        "android_client_info": {
+          "package_name": "com.student.ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627082445497-1ib6988hhnrav705avko4u8uhcc8u1m5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.student.ai",
+            "certificate_hash": "50f3215cffa2871fe1f10a5512466ade9349cb52"
+          }
+        },
+        {
+          "client_id": "627082445497-3urq4rg8mmu1m6uj24kvgaqt60jitjm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.student.ai",
+            "certificate_hash": "33ef143e0ccbff98d714a6110c5ea7b2c4b83ba6"
+          }
+        },
+        {
+          "client_id": "627082445497-ab9qdofacmp0l4qi9o0ubpdngojdsc87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_wwJHNtU7WJ5RpjQxzDrEx3x23hB8iqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627082445497-ab9qdofacmp0l4qi9o0ubpdngojdsc87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

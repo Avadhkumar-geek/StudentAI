@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:student_ai/data/app_color.dart';
-import 'package:student_ai/data/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:student_ai/data/constants/app_color.dart';
+import 'package:student_ai/data/constants/constants.dart';
 import 'package:student_ai/widgets/support_card.dart';
 
 class RateCard extends StatefulWidget {
@@ -28,11 +29,20 @@ class _RateCardState extends State<RateCard> {
               title: Text(
                 "Rate Us",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 22.0, color: colors.kTextColor),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22.0,
+                    color: colors.kTextColor),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  SvgPicture.asset(
+                    'assets/svgs/logo.svg',
+                    height: 60,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   RatingBar.builder(
                     minRating: 1,
                     initialRating: _rating,
@@ -103,7 +113,7 @@ class _RateCardState extends State<RateCard> {
       child: const SupportCard(
         title: "Rate Us",
         disc: "Review on PlayStore",
-        imgSrc: "assets/rate.svg",
+        imgSrc: "assets/svgs/rate.svg",
         color: kSupportCard2,
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_ai/data/app_color.dart';
-import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/constants/app_color.dart';
+import 'package:student_ai/data/constants/constants.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -32,6 +32,9 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintText: field.value['placeholder'],
+        hintStyle: TextStyle(
+          color: colors.kTextColor?.withOpacity(0.5),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,

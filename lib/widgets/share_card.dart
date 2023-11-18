@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:student_ai/data/constants.dart';
+import 'package:student_ai/data/constants/constants.dart';
 import 'package:student_ai/widgets/support_card.dart';
 
 class ShareCard extends StatelessWidget {
@@ -20,7 +20,7 @@ class ShareCard extends StatelessWidget {
       child: const SupportCard(
         title: "Share",
         disc: "Tell the World About Us",
-        imgSrc: "assets/share.svg",
+        imgSrc: "assets/svgs/share.svg",
         color: kSupportCard1,
       ),
     );
