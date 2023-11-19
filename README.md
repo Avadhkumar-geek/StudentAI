@@ -1,6 +1,6 @@
 ## StudentAI
 
-StudentAI is an AI chatbot app designed to enhance students' learning experiences through personalized interactions. The app uses Google PaLM API to provide students with comprehensive and informative answers to their questions.
+StudentAI is an AI chatbot app designed to enhance students' learning experiences through personalized interactions. The app uses Google's PaLM 2 model to provide students with comprehensive and informative answers to their questions.
 
 ### Features
 
@@ -8,7 +8,7 @@ StudentAI is an AI chatbot app designed to enhance students' learning experience
 -   Access to a vast knowledge base covering multiple subjects and topics
 -   Ability to answer questions in a comprehensive and informative way
 -   User-friendly interface designed for seamless interactions
--   Chatbot with Google PaLM API integration for accurate responses
+-   Chatbot with Google's PaLM API integration for accurate responses
 
 ### Getting Started
 
@@ -21,13 +21,13 @@ To get started with StudentAI, you will need to:
 
 ### Usage
 
-Once the app is running, you can start chatting with StudentAI by typing in your questions or requests. StudentAI will use its knowledge base and Google PaLM API to provide you with personalized learning experiences.
+Once the app is running, you can start chatting with StudentAI by typing in your questions or requests. StudentAI will use its knowledge base and Google's PaLM API to provide you with personalized learning experiences.
 
 #### API Key
 
 Before starting to use the app, add your API key to the app. Here are some ways to get your API key:
 
-Get your API key from the official [Google PaLM](https://makersuite.google.com/app/apikey).
+Get your API key from the official [PaLM API](https://makersuite.google.com/app/apikey).
 
 ### Data
 
