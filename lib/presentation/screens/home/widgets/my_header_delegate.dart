@@ -8,9 +8,9 @@ import 'package:student_ai/data/constants/globals.dart';
 import 'package:student_ai/logic/blocs/api/api_bloc.dart';
 import 'package:student_ai/logic/blocs/chat/chat_bloc.dart';
 import 'package:student_ai/logic/blocs/user/user_bloc.dart';
-import 'package:student_ai/logic/blocs/validator/validator_bloc.dart';
 import 'package:student_ai/presentation/screens/chat/chat_screen.dart';
 import 'package:student_ai/presentation/screens/search/widgets/my_search_bar.dart';
+import 'package:student_ai/widgets/show_snackbar.dart';
 
 class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
   final TextEditingController chatController;
@@ -96,14 +96,11 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                   onTap: () {
                     HapticFeedback.heavyImpact();
                     _animationController.forward().then((value) => _animationController.reset());
-                    if (context.watch<ValidatorBloc>().state is ValidatorFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          content: Text('Enter a valid API Key'),
-                          backgroundColor: kRed,
-                          duration: Duration(seconds: 1),
-                        ),
+                    if (!isAPIValidated) {
+                      showSnackBar(
+                        context: context,
+                        message: 'Enter a valid API Key',
+                        backgroundColor: kErrorColor,
                       );
                     } else if (chatController.text.isNotEmpty) {
                       BlocProvider.of<ChatBloc>(context)
@@ -120,22 +117,17 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
                     FocusScope.of(context).unfocus();
                   },
                   child: Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
                       color: colors.kTextColor,
+                      shape: BoxShape.circle,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: RotationTransition(
-                        turns: Tween(begin: 0.0, end: 1.5).animate(_animationController),
-                        child: SvgPicture.asset(
-                          'assets/svgs/openai.svg',
-                          width: 40,
-                          colorFilter: ColorFilter.mode(
-                            colors.kTertiaryColor!,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                    child: RotationTransition(
+                      turns: Tween(begin: 0.0, end: 1.5).animate(_animationController),
+                      child: SvgPicture.asset(
+                        'assets/svgs/g_ai.svg',
+                        width: 35,
                       ),
                     ),
                   ),

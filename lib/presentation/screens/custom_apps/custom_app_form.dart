@@ -7,7 +7,6 @@ import 'package:student_ai/data/constants/constants.dart';
 import 'package:student_ai/data/constants/globals.dart';
 import 'package:student_ai/data/models/custom_app_model.dart';
 import 'package:student_ai/logic/blocs/api/api_bloc.dart';
-import 'package:student_ai/logic/blocs/validator/validator_bloc.dart';
 import 'package:student_ai/presentation/screens/chat/chat_screen.dart';
 import 'package:student_ai/presentation/screens/custom_apps/widgets/custom_app_text_field.dart';
 import 'package:student_ai/widgets/show_snackbar.dart';
@@ -48,7 +47,7 @@ class _CustomAppFormPageState extends State<CustomAppFormPage> {
         showSnackBar(
           context: context,
           message: 'Enter a valid API Key',
-          backgroundColor: kRed,
+          backgroundColor: kErrorColor,
         );
       } else {
         log('Final prompt : $finalPrompt');

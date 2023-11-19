@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_ai/data/constants/app_color.dart';
 import 'package:student_ai/data/constants/constants.dart';

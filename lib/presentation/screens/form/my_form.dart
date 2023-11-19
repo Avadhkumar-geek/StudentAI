@@ -6,7 +6,6 @@ import 'package:student_ai/data/constants/globals.dart';
 import 'package:student_ai/data/repositories/studentai_api_repo.dart';
 import 'package:student_ai/logic/blocs/api/api_bloc.dart';
 import 'package:student_ai/logic/blocs/app_metadata/app_metadata_bloc.dart';
-import 'package:student_ai/logic/blocs/validator/validator_bloc.dart';
 import 'package:student_ai/presentation/screens/chat/chat_screen.dart';
 import 'package:student_ai/presentation/screens/form/widgets/dummy_form.dart';
 import 'package:student_ai/presentation/screens/quiz/widgets/mind_map.dart';
@@ -62,7 +61,7 @@ class _MyFormViewState extends State<MyFormView> {
         showSnackBar(
           context: context,
           message: 'Enter a valid API Key',
-          backgroundColor: kRed,
+          backgroundColor: kErrorColor,
         );
       } else {
         BlocProvider.of<APIBloc>(context).add(APIRequestEvent(query: finalPrompt.toString()));

@@ -18,29 +18,22 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
-  late AnimationController _aniController;
+  late AnimationController _animationController;
   final TextEditingController newQueryController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _aniController = AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
   }
 
-  @override
-  void dispose() {
-    _aniController.dispose();
-    newQueryController.dispose();
-    super.dispose();
-  }
-
   void _onSendButtonPressed() {
     HapticFeedback.heavyImpact();
-    _aniController.forward().then((_) => _aniController.reset());
+    _animationController.forward().then((_) => _animationController.reset());
 
     final query = newQueryController.text;
     if (query.isNotEmpty) {
@@ -148,22 +141,17 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(20),
                   onTap: _onSendButtonPressed,
                   child: Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
                       color: colors.kTextColor,
+                      shape: BoxShape.circle,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: RotationTransition(
-                        turns: Tween(begin: 0.0, end: 1.5).animate(_aniController),
-                        child: SvgPicture.asset(
-                          'assets/svgs/openai.svg',
-                          width: 40,
-                          colorFilter: ColorFilter.mode(
-                            colors.kTertiaryColor!,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                    child: RotationTransition(
+                      turns: Tween(begin: 0.0, end: 1.5).animate(_animationController),
+                      child: SvgPicture.asset(
+                        'assets/svgs/g_ai.svg',
+                        width: 35,
                       ),
                     ),
                   ),
@@ -175,5 +163,12 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    newQueryController.dispose();
+    super.dispose();
   }
 }

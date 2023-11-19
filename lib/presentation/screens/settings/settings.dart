@@ -17,8 +17,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final MaterialStateProperty<Icon> thumbIcon =
-      MaterialStateProperty.resolveWith((states) {
+  final MaterialStateProperty<Icon> thumbIcon = MaterialStateProperty.resolveWith((states) {
     if (states.contains(MaterialState.selected)) {
       return const Icon(
         Icons.dark_mode,
@@ -53,8 +52,7 @@ class _SettingsState extends State<Settings> {
           context: context,
           tiles: [
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               title: Text(
                 "Profile",
                 style: TextStyle(color: colors.kTextColor, fontSize: 18),
@@ -78,8 +76,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               title: Text(
                 "API Configuration",
                 style: TextStyle(color: colors.kTextColor, fontSize: 18),
@@ -97,8 +94,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               title: Text(
                 "Theme",
                 style: TextStyle(color: colors.kTextColor, fontSize: 18),
@@ -124,8 +120,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               title: Text(
                 "Licenses",
                 style: TextStyle(color: colors.kTextColor, fontSize: 18),
@@ -145,8 +140,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
               title: Text(
                 "About",
                 style: TextStyle(color: colors.kTextColor, fontSize: 18),
@@ -182,8 +176,7 @@ class _SettingsState extends State<Settings> {
                 }
               },
               child: ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                   title: const Text(
                     "Log Out",
                     style: TextStyle(color: Colors.redAccent, fontSize: 18),

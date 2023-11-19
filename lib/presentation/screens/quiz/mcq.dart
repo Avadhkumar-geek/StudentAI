@@ -48,22 +48,19 @@ class _MCQState extends State<MCQ> {
             bool isSelected = _selectedOption == option;
             return RadioListTile<String>(
               selectedTileColor: kPrimaryColor.withOpacity(0.4),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               selected: isSelected,
-              activeColor: Colors.black,
+              activeColor: kPrimaryColor,
               contentPadding: EdgeInsets.zero,
               dense: true,
               title: Text(
                 option,
                 style: TextStyle(fontSize: 18, color: colors.kTextColor),
               ),
-              subtitle: isSelected &&
-                      widget.isSubmitted &&
-                      widget.mcq.answer != _selectedOption
+              subtitle: isSelected && widget.isSubmitted && widget.mcq.answer != _selectedOption
                   ? const Text(
                       'Wrong answer',
-                      style: TextStyle(color: kRed),
+                      style: TextStyle(color: kErrorColor),
                     )
                   : null,
               value: option,

@@ -35,7 +35,7 @@ class About extends StatelessWidget {
             SvgPicture.asset(
               'assets/svgs/akLogo.svg',
               height: 150,
-              colorFilter: ColorFilter.mode(colors.kTextColor!, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(kBlack, BlendMode.srcIn),
             ),
             const SizedBox(
               height: 50,
@@ -76,9 +76,9 @@ class About extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            Text(
+            const Text(
               '  © All Rights Reserved',
-              style: TextStyle(fontWeight: FontWeight.bold, color: colors.kTextColor),
+              style: TextStyle(fontWeight: FontWeight.bold, color: kBlack),
             )
           ],
         ),

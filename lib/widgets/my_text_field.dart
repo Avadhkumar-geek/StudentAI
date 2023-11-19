@@ -48,7 +48,7 @@ class MyTextField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
-            color: kRed,
+            color: kErrorColor,
             width: 2,
           ),
         ),
@@ -59,7 +59,7 @@ class MyTextField extends StatelessWidget {
             width: 2,
           ),
         ),
-        errorStyle: const TextStyle(color: kRed),
+        errorStyle: const TextStyle(color: kErrorColor),
         filled: true,
         fillColor: colors.kTertiaryColor,
       ),

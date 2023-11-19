@@ -39,10 +39,7 @@ class _CustomAppsState extends State<CustomApps> {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             "Your Apps",
-            style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
-                color: colors.kTextColor),
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: colors.kTextColor),
           ),
         ),
         BlocConsumer<CustomAppsBloc, CustomAppState>(
@@ -50,7 +47,7 @@ class _CustomAppsState extends State<CustomApps> {
             if (state is CustomAppStateFailed) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: kRed,
+                  backgroundColor: kErrorColor,
                   content: Text(state.error),
                 ),
               );
@@ -73,9 +70,6 @@ class _CustomAppsState extends State<CustomApps> {
             }
             if (state is CustomAppStateLoaded) {
               final apps = state.apps;
-              for (var e in apps) {
-                log(e.toJson().toString());
-              }
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

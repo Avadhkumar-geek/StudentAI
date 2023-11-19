@@ -47,7 +47,6 @@ dependencies:
   share_plus: ^7.0.2
   wiredash: ^1.7.0
   shimmer: ^3.0.0
-  flutter_rating_bar: ^4.0.1
   webview_flutter_plus: ^0.3.0+2
   firebase_core: ^2.15.1
   firebase_auth: ^4.9.0

@@ -30,8 +30,7 @@ class CustomAppTextField extends StatelessWidget {
       controller: formFieldControllers[field.key],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintText: 'Enter ${field.key}',
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -46,7 +45,7 @@ class CustomAppTextField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
-            color: kRed,
+            color: kErrorColor,
             width: 2,
           ),
         ),
@@ -57,7 +56,7 @@ class CustomAppTextField extends StatelessWidget {
             width: 2,
           ),
         ),
-        errorStyle: const TextStyle(color: kRed),
+        errorStyle: const TextStyle(color: kErrorColor),
         filled: true,
         fillColor: colors.kTertiaryColor,
       ),

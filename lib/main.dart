@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:student_ai/data/constants/app_color.dart';
 import 'package:student_ai/data/constants/constants.dart';
 import 'package:student_ai/data/constants/globals.dart';
-import 'package:student_ai/data/constants/secrets.dart';
 import 'package:student_ai/data/repositories/auth_repo.dart';
 import 'package:student_ai/data/repositories/ai_model_repo.dart';
 import 'package:student_ai/data/repositories/studentai_api_repo.dart';
@@ -61,15 +60,15 @@ class _MyAppState extends State<MyApp> {
       feedbackOptions: const WiredashFeedbackOptions(
         labels: [
           Label(
-            id: label1,
+            id: 'label-jmr4ih3qig',
             title: 'Bug',
           ),
           Label(
-            id: label2,
+            id: 'label-6icfkrtiil',
             title: 'Improvement',
           ),
           Label(
-            id: label3,
+            id: 'label-jyi00inv6e',
             title: 'Feature Request',
           ),
         ],
@@ -79,8 +78,8 @@ class _MyAppState extends State<MyApp> {
         secondaryColor: kSecondaryColor,
         brightness: currentTheme.getTheme ? Brightness.dark : Brightness.light,
       ),
-      projectId: projectId,
-      secret: secretKey,
+      projectId: 'studentai-4joyq7b',
+      secret: 'R9Q1KSg6aUbRpkB-l4S_mnmUDRD6V2md',
       child: MultiRepositoryProvider(
         providers: [
           RepositoryProvider(

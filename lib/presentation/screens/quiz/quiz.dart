@@ -150,9 +150,9 @@ class _QuizState extends State<Quiz> {
   }
 
   void _submitQuiz() {
-    int correctAns = 0;
+    int correctAnsLength = 0;
     for (var i = 0; i < answers.length; i++) {
-      if (answers[i] == selectedOptions[i]) correctAns++;
+      if (answers[i] == selectedOptions[i]) correctAnsLength++;
     }
     setState(() {
       _isSubmitted = true;
@@ -161,7 +161,13 @@ class _QuizState extends State<Quiz> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizResult(total: answers.length, correct: correctAns),
+          builder: (context) => QuizResult(
+            total: answers.length,
+            correct: correctAnsLength,
+            questionJSON: questionJSON,
+            answers: answers,
+            selectedOptions: selectedOptions,
+          ),
         ));
   }
 }
